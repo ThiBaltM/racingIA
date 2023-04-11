@@ -1,6 +1,7 @@
 import pygame as py
 from classCar import Car
 from classRoad import Road
+py.font.init()
 
 class Game:
     def __init__(self, screen):
@@ -20,22 +21,22 @@ class Game:
           
     def update(self):
         """Cette fonction met a jour les evenement divers pouvant avoir lieux"""
+        py.draw.rect(self.screen, "white", py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
 
-        #myfont = pygame.font.SysFont('Impact', self.screen.get_width() // 74)
-        #textScoreSurface = myfont.render(f"your score :{self.score}", False, (255, 255, 255))
-        #self.screen.blit(textScoreSurface,(self.joueur.pixel[0] * 340, 9 * self.joueur.pixel[1]))
+        #myfont = py.font.SysFont('Impact', self.screen.get_width() // 74)
+        #textScoreSurface = myfont.render(f"your score :{self.car.calculScore()}", False, (0,0,0))
+        #self.screen.blit(textScoreSurface,(10,10))
 
         #gestion joueur
         if self.pressed[py.K_z]:
             self.car.accelerate()
-        elif self.pressed[py.K_s]:
+        if self.pressed[py.K_s]:
             self.car.brake()
-        elif self.pressed[py.K_q]:
+        if self.pressed[py.K_q]:
             self.car.left()
-        elif self.pressed[py.K_d]:
+        if self.pressed[py.K_d]:
             self.car.right()
         
-        py.draw.rect(self.screen, "white", py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
 
         
             

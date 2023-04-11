@@ -39,9 +39,14 @@ class Car:
             
             if(poi != None):
                 self.ko = True;
+                self.score = self.calculScore();
             self.turning = False;
         
-            self.score = self.game.roadAdvance.advance(self);
+            self.score = self.game.roadAdvance.advance(self, self.game.compteur, self.score);
+        if self.score == len(self.game.roadAdvance.listPts):
+            self.ko = True;
+            self.score = self.calculScore();
+            self.score += 500;
 
         self.screen.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2));
 
@@ -62,3 +67,6 @@ class Car:
     def brake(self):
         if(self.speed >0.5):
             self.speed -=0.2;
+
+    def calculScore(self):
+        return self.score*300 - self.game.compteur;
