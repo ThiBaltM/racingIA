@@ -4,7 +4,7 @@ from classRoad import Road
 py.font.init()
 
 class Game:
-    def __init__(self, screen):
+    def __init__(self, screen, listCar):
         self.screen = screen;
         self.pressed = {py.K_e : False,1: False, py.K_z:False, py.K_s:False, py.K_q:False, py.K_d:False};
         self.compteur = 0;
@@ -16,6 +16,7 @@ class Game:
         self.x = 0;
         self.y=0;
         self.roadAdvance = Road(self)
+        self.listCar = listCar;
 
 
           

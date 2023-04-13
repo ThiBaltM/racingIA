@@ -11,7 +11,7 @@ FPS = 30
 
 isRunning = True
 
-game = Game(screen)
+game = Game(screen, [])
 
 while isRunning:
 
