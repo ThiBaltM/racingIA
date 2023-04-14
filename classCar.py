@@ -7,7 +7,7 @@ class Car:
         self.screen = game.screen;
         self.angle = 0.5*pi;
         self.maxTurn = pi/4;
-        self.speed = 0;
+        self.speed = 1;
         self.maxSpeed = 10
         self.x = 120;
         self.y = 300;
