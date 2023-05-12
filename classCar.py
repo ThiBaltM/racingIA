@@ -89,15 +89,16 @@ class Car:
                         self.ko = True;
                         self.scoreFinal = self.calculScore();
                     
-                    tabInput.append(lenght);
+                    tabInput.append(lenght*2-1);
                 else:
                     tabInput.append(1);
             
             #ajout moteur et volant aux données
-            tabInput.append(self.speed/self.maxSpeed);
-            tabInput.append(self.turn/self.maxTurn/2+0.5);
+            tabInput.append(self.speed/self.maxSpeed*2-1);
+            tabInput.append(self.turn/self.maxTurn);
 
-            #self.acting(tabInput);
+            print(tabInput)
+            self.acting(tabInput);
 
 
 
@@ -110,7 +111,6 @@ class Car:
 
     def acting(self, inputs):
         act = self.brain.forward(inputs);
-        print(act)
         for k in range(4):
             if(act[k]>0.5 and k ==0):
                 self.accelerate();

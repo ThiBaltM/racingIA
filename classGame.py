@@ -29,7 +29,7 @@ class Game:
         #textScoreSurface = myfont.render(f"your score :{self.car.calculScore()}", False, (0,0,0))
         #self.screen.blit(textScoreSurface,(10,10))
 
-        
+        """
         #gestion joueur
         if self.pressed[py.K_z]:
             self.listCar[0].accelerate()
@@ -39,6 +39,7 @@ class Game:
             self.listCar[0].left()
         if self.pressed[py.K_d]:
             self.listCar[0].right()
+        """
         
         
 

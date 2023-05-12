@@ -12,7 +12,7 @@ FPS = 30
 
 isRunning = True
 
-game = Game(screen, [NeuralNetwork(12, 8, 4)])
+game = Game(screen, [NeuralNetwork(8, 6, 4)])
 
 while isRunning:
 
