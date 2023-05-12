@@ -2,7 +2,7 @@ import pygame as py
 from math import pi, atan2, degrees, sqrt, cos, sin;
 
 class Car:
-    def __init__(self, game):
+    def __init__(self, game, brain):
         self.game = game;
         self.screen = game.screen;
         self.angle = 0.5*pi;
@@ -17,8 +17,10 @@ class Car:
         self.turning = False;
         self.ko = False;
         self.score=0;
+        self.scoreFinal =0;
         self.lenRay = 300;
-        self.demo = True;
+        self.demo = False;
+        self.brain = brain;
     
     def disp(self):
         
@@ -35,6 +37,7 @@ class Car:
 
             self.img = py.transform.rotate(self.imgOrigin, degrees(self.angle));
 
+            """
             #collide
             carMask = py.mask.from_surface(self.img);
             offset = (int((self.x-self.img.get_width()/2)- self.game.x), int((self.y-self.img.get_height()/2) - self.game.y));
@@ -42,7 +45,8 @@ class Car:
             
             if(poi != None):
                 self.ko = True;
-                self.score = self.calculScore();
+                self.scoreFinal = self.calculScore();
+            """
             self.turning = False;
         
             self.score = self.game.roadAdvance.advance(self, self.game.compteur, self.score);
@@ -52,37 +56,48 @@ class Car:
             tabRes = []
             tabInput = []
 
-            for angle in [self.angle+pi/2, self.angle+pi/3, self.angle+pi/4, self.angle+pi/6, self.angle+pi/8, self.angle, self.angle-pi/8, self.angle-pi/6, self.angle-pi/4, self.angle - pi/3, self.angle - pi/2]:
-                # Création d'une surface temporaire pour tracer la ligne
-                test = py.Surface((self.game.screenWidth, self.game.screenHeight), py.SRCALPHA)
-                py.draw.line(test, (255, 255, 255), (xStart, yStart), (xStart - self.lenRay * cos(angle), yStart + self.lenRay * sin(angle)), 2)
+            test = py.Surface((self.game.screenWidth, self.game.screenHeight), py.SRCALPHA)
+            for angle in [self.angle+3*pi/8, self.angle+pi/4, self.angle+pi/8, self.angle, self.angle-pi/8, self.angle - pi/4, self.angle - 3*pi/8]:
+                test.fill((0,0,0,0));
+                for k in range(60, self.lenRay+1, 60):
+                    # Création d'une surface temporaire pour tracer la ligne
+                    py.draw.line(test, (255, 255, 255), (xStart, yStart), (xStart - k * cos(angle), yStart + k * sin(angle)), 2)
 
-                # Création du masque à partir de la surface temporaire
-                line_mask = py.mask.from_surface(test)
+                    # Création du masque à partir de la surface temporaire
+                    line_mask = py.mask.from_surface(test);
 
-                # Test de collision entre le masque de la ligne et le masque de la piste
-                collision_offset = (0,0)
-                overlap_mask = self.game.trackBorder.overlap(line_mask, collision_offset)
-
-                # Ajout du résultat de la collision à la liste des résultats
-                tabRes.append(overlap_mask)
+                    # Test de collision entre le masque de la ligne et le masque de la piste
+                    collision_offset = (0,0);
+                    overlap_mask = self.game.trackBorder.overlap(line_mask, collision_offset);
+                    if(overlap_mask != None):
+                        # Ajout du résultat de la collision à la liste des résultats
+                        break;
+                tabRes.append(overlap_mask);
 
                 # Affichage de la ligne sur l'écran
                 if(self.demo):
                     if overlap_mask is None:
                         py.draw.line(self.screen, (0, 255, 255), (xStart, yStart), (xStart - self.lenRay * cos(angle), yStart + self.lenRay * sin(angle)), 2)
                     else:
-                        collision_coords = overlap_mask
+                        collision_coords = overlap_mask;
                         py.draw.line(self.screen, (30, 100, 100), (xStart, yStart), collision_coords, 2)
             for coords in tabRes:
                 if(coords!=None):
-                    tabInput.append(sqrt((xStart - coords[0])**2+(yStart - coords[1])**2)/self.lenRay)
+                    v = sqrt((xStart - coords[0])**2+(yStart - coords[1])**2);
+                    lenght = v/self.lenRay;
+                    if(v<15):
+                        self.ko = True;
+                        self.scoreFinal = self.calculScore();
+                    
+                    tabInput.append(lenght);
                 else:
                     tabInput.append(1);
             
             #ajout moteur et volant aux données
             tabInput.append(self.speed/self.maxSpeed);
-            tabInput.append(self.turn/self.maxTurn);
+            tabInput.append(self.turn/self.maxTurn/2+0.5);
+
+            #self.acting(tabInput);
 
 
 
@@ -92,6 +107,19 @@ class Car:
                 self.score += 500;
 
         self.screen.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2));
+
+    def acting(self, inputs):
+        act = self.brain.forward(inputs);
+        print(act)
+        for k in range(4):
+            if(act[k]>0.5 and k ==0):
+                self.accelerate();
+            if(act[k]>0.5 and k==1):
+                self.brake();
+            if(act[k]>0.5 and k==2):
+                self.left();
+            if(act[k]>0.5 and k==3):
+                self.right();
 
     def left(self):
         if(self.turn<= pi/120):

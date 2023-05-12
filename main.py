@@ -1,5 +1,6 @@
 import pygame as py
 from classGame import Game
+from classNeuron import NeuralNetwork
 
 #initialisation valeurs plateau
 largeurEcran, hauteurEcran = (1280, 720)
@@ -11,7 +12,7 @@ FPS = 30
 
 isRunning = True
 
-game = Game(screen, [])
+game = Game(screen, [NeuralNetwork(12, 8, 4)])
 
 while isRunning:
 
