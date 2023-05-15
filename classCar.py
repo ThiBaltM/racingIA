@@ -25,7 +25,7 @@ class Car:
         self.score=0;
         self.scoreFinal =0;
         self.lenRay = 300;
-        self.demo = True;
+        self.demo = False;
         self.brain = brain;
         self.compteurMouv = 0;
     
@@ -57,8 +57,7 @@ class Car:
             poi = self.game.trackBorder.overlap(carMask, offset);
             
             if(poi != None):
-                self.ko = True;
-                self.scoreFinal = self.calculScore();
+                self.die();
             """
             self.turning = False;
         
@@ -69,8 +68,7 @@ class Car:
             else:
                 self.compteurMouv +=1;
                 if(self.compteurMouv >=30):
-                    self.ko = True;
-                    self.games.lives -=1;
+                    self.die();
            
             #calcul des lasers
             xStart, yStart = (self.x, self.y)
@@ -107,9 +105,7 @@ class Car:
                     v = sqrt((xStart - coords[0])**2+(yStart - coords[1])**2);
                     lenght = v/self.lenRay;
                     if(v<15):
-                        self.ko = True;
-                        self.games.lives -=1;
-                        self.scoreFinal = self.calculScore();
+                        self.die();
                     
                     tabInput.append(lenght*2-1);
                 else:
@@ -124,9 +120,7 @@ class Car:
 
 
             if self.score == len(self.game.roadAdvance.listPts):
-                self.ko = True;
-                self.score = self.calculScore();
-                self.score += 500;
+                self.die()
 
         self.screen.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2));
     
@@ -189,3 +183,12 @@ class Car:
 
     def calculScore(self):
         return self.score*300 - self.game.compteur;
+
+    def die(self):
+        self.ko = True;
+        self.game.lives -= 1;
+        if self.score == len(self.game.roadAdvance.listPts):
+                        self.score = self.calculScore();
+                        self.score += 500;
+        else:
+            self.score = self.calculScore();
