@@ -18,7 +18,6 @@ class NeuralNetwork:
         v = [];
         for val in tab:
             v.append(math.floor(val*1000)/1000)
-        print(v)
 
     def calcVal(self,tabInput, tabW, bias, outputLenght):
         res = [];
@@ -32,18 +31,17 @@ class NeuralNetwork:
 
 
     def forward(self, X):
-        self.printTab(X)
+
         z = self.calcVal(X, self.weights1, self.bias1, self.hidden_size);
-        self.printTab(z)
+
         # Apply the sigmoid activation function to the result
         z2 = [self.sigmoid(z[j]) for j in range(self.hidden_size)]
-        self.printTab(z2)
+
         # Compute the dot product of the resulting hidden layer and the second set of weights, and add the bias term
         z3 = self.calcVal(z2, self.weights2, self.bias2, self.output_size)
-        self.printTab(z3)
+
         # Apply the sigmoid activation function again to obtain the final output
         o = [self.sigmoid(z3[j]) for j in range(self.output_size)]
-        self.printTab(o)
-        print()
+
         return o
 
