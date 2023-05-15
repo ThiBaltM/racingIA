@@ -27,6 +27,7 @@ class Car:
         self.lenRay = 300;
         self.demo = True;
         self.brain = brain;
+        self.compteurMouv = 0;
     
         #controls
         self.leftA=False;
@@ -61,7 +62,15 @@ class Car:
             """
             self.turning = False;
         
+            score = self.score
             self.score = self.game.roadAdvance.advance(self, self.game.compteur, self.score);
+            if(score < self.score):
+                self.compteurMouv =0;
+            else:
+                self.compteurMouv +=1;
+                if(self.compteurMouv >=30):
+                    self.ko = True;
+                    self.games.lives -=1;
            
             #calcul des lasers
             xStart, yStart = (self.x, self.y)
@@ -99,6 +108,7 @@ class Car:
                     lenght = v/self.lenRay;
                     if(v<15):
                         self.ko = True;
+                        self.games.lives -=1;
                         self.scoreFinal = self.calculScore();
                     
                     tabInput.append(lenght*2-1);
@@ -157,13 +167,13 @@ class Car:
 
     def left(self):
         self.leftA=True;
-        if(self.turn<= pi/120):
+        if(self.turn<= pi/120 and self.speed !=0):
             self.turn += pi/1200;
         self.turning = True;
 
     def right(self):
         self.rightA=True;
-        if(self.turn >= -pi/120):
+        if(self.turn >= -pi/120 and self.speed !=0):
             self.turn -= pi/1200;
         self.turning = True;
 

@@ -1,10 +1,11 @@
 import pygame as py
 from classCar import Car
 from classRoad import Road
+from classNeuron import NeuralNetwork
 py.font.init()
 
 class Game:
-    def __init__(self, screen, listNetwork):
+    def __init__(self, screen):
         self.screen = screen;
         self.pressed = {py.K_e : False,1: False, py.K_z:False, py.K_s:False, py.K_q:False, py.K_d:False};
         self.compteur = 0;
@@ -16,8 +17,9 @@ class Game:
         self.y=0;
         self.roadAdvance = Road(self);
         self.listCar = [];
-        for network in listNetwork:
-            self.listCar.append(Car(self, network))
+        for _ in range (20):
+            self.listCar.append(Car(self, NeuralNetwork(8, 6, 4)));
+        self.lives = 20;
 
 
           
