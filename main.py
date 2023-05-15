@@ -34,10 +34,12 @@ while isRunning:
             game.pressed[event.button] = False
     game.update()
 
+    """
     #show road advancement points for initializing it
     for a in game.roadAdvance.list:
         py.draw.circle(screen,'red',a,5,5);
     print(game.roadAdvance.list)
+    """
     
     py.display.flip()
 
