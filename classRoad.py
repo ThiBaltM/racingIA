@@ -12,7 +12,7 @@ class Road:
         self.list.append(py.mouse.get_pos())  
 
     def advance(self, car, time, current):
-        x, y = (int(car.x-car.img.get_width()/2), int(car.y-car.img.get_height()/2));
+        x, y = (int(car.x), int(car.y));
         c = 0;
         listeDistance = [];
         dictDistance = {};

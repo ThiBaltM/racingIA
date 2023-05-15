@@ -11,15 +11,16 @@ class Game:
         self.compteur = 0;
         self.screenHeight, self.screenWidth = (self.screen.get_height(),self.screen.get_width());
         self.score = 0;
+        self.pop = 5;
         self.road = py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight));
         self.trackBorder = py.mask.from_surface(self.road);
         self.x = 0;
         self.y=0;
         self.roadAdvance = Road(self);
         self.listCar = [];
-        for _ in range (5):
+        for _ in range (self.pop):
             self.listCar.append(Car(self, NeuralNetwork(8, 6, 4)));
-        self.lives = 5;
+        self.lives = self.pop;
 
 
           
@@ -27,6 +28,13 @@ class Game:
         """Cette fonction met a jour les evenement divers pouvant avoir lieux"""
         py.draw.rect(self.screen, "white", py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
         print(self.compteur);
+        print(self.lives);
+        if(self.lives<=0):
+            self.lives = self.pop;
+            self.listCar =[];
+            for _ in range (self.pop):
+                self.listCar.append(Car(self, NeuralNetwork(8, 6, 4)));
+            self.listCar.sort(key=lambda x:x.score)
         #myfont = py.font.SysFont('Impact', self.screen.get_width() // 74)
         #textScoreSurface = myfont.render(f"your score :{self.car.calculScore()}", False, (0,0,0))
         #self.screen.blit(textScoreSurface,(10,10))
