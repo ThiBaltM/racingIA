@@ -8,7 +8,7 @@ largeurEcran, hauteurEcran = (1280, 720)
 screen = py.display.set_mode((largeurEcran,hauteurEcran))
 
 clock = py.time.Clock()
-FPS = 30
+
 
 isRunning = True
 
@@ -16,7 +16,6 @@ game = Game(screen)
 
 while isRunning:
 
-    clock.tick(FPS)
     #gestion des touches
     for event in py.event.get():
         if event.type == py.KEYDOWN:
@@ -28,8 +27,8 @@ while isRunning:
         elif event.type == py.MOUSEBUTTONDOWN:
             game.pressed[event.button] = True
             #initializing road
-            game.roadAdvance.draw()
-
+            #game.roadAdvance.draw()
+        
         elif event.type == py.MOUSEBUTTONUP:
             game.pressed[event.button] = False
     game.update()

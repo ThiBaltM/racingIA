@@ -17,16 +17,16 @@ class Game:
         self.y=0;
         self.roadAdvance = Road(self);
         self.listCar = [];
-        for _ in range (20):
+        for _ in range (5):
             self.listCar.append(Car(self, NeuralNetwork(8, 6, 4)));
-        self.lives = 20;
+        self.lives = 5;
 
 
           
     def update(self):
         """Cette fonction met a jour les evenement divers pouvant avoir lieux"""
         py.draw.rect(self.screen, "white", py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
-
+        print(self.compteur);
         #myfont = py.font.SysFont('Impact', self.screen.get_width() // 74)
         #textScoreSurface = myfont.render(f"your score :{self.car.calculScore()}", False, (0,0,0))
         #self.screen.blit(textScoreSurface,(10,10))
