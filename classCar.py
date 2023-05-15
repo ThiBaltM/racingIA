@@ -149,11 +149,11 @@ class Car:
         for k in range(4):
             if(act[k]>0.75 and k ==0):
                 self.accelerate();
-            elif(act[k]>0.75 and k==1):               
+            if(act[k]>0.75 and k==1):               
                 self.brake();
-            elif(act[k]>0.75 and k==2):
+            if(act[k]>0.75 and k==2):
                 self.left();
-            elif(act[k]>0.75 and k==3):
+            if(act[k]>0.75 and k==3):
                 self.right();
 
     def left(self):
