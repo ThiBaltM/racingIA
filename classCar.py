@@ -124,57 +124,57 @@ class Car:
         #affichage controle
         if(self.demo):
             if(self.engineA):
-                self.screen.blit(self.imgControl["engine"][1], (1200, 80));
+                self.screen.blit(self.imgControl["engine"][1], (90, 80));
             else:
-                self.screen.blit(self.imgControl["engine"][0], (1200, 80));
+                self.screen.blit(self.imgControl["engine"][0], (90, 80));
     
             if(self.brakeA):
-                self.screen.blit(self.imgControl["brake"][1], (1150, 80));
+                self.screen.blit(self.imgControl["brake"][1], (30, 80));
             else:
-                self.screen.blit(self.imgControl["brake"][0], (1150, 80));
+                self.screen.blit(self.imgControl["brake"][0], (30, 80));
     
             if(self.leftA):
-                self.screen.blit(self.imgControl["left"][1], (1150, 30));
+                self.screen.blit(self.imgControl["left"][1], (30, 30));
             else:
-                self.screen.blit(self.imgControl["left"][0], (1150, 30));
+                self.screen.blit(self.imgControl["left"][0], (30, 30));
     
             if(self.rightA):
-                self.screen.blit(self.imgControl["right"][1], (1200, 30));
+                self.screen.blit(self.imgControl["right"][1], (90, 30));
             else:
-                self.screen.blit(self.imgControl["right"][0], (1200, 30));
+                self.screen.blit(self.imgControl["right"][0], (90, 30));
 
 
     def acting(self, inputs):
         act = self.brain.forward(inputs);
         for k in range(4):
             if(act[k]>0.75 and k ==0):
-                self.engineA = True;
                 self.accelerate();
-            elif(act[k]>0.75 and k==1):
-                self.brakeA=True;
+            elif(act[k]>0.75 and k==1):               
                 self.brake();
             elif(act[k]>0.75 and k==2):
-                self.leftA=True;
                 self.left();
             elif(act[k]>0.75 and k==3):
-                self.rightA=True;
                 self.right();
 
     def left(self):
+        self.leftA=True;
         if(self.turn<= pi/120):
             self.turn += pi/1200;
         self.turning = True;
 
     def right(self):
+        self.rightA=True;
         if(self.turn >= -pi/120):
             self.turn -= pi/1200;
         self.turning = True;
 
     def accelerate(self):
+        self.engineA = True;
         if(self.speed < 10):
             self.speed +=0.1;
 
     def brake(self):
+        self.brakeA=True;
         if(self.speed >0.5):
             self.speed -=0.4;
 
