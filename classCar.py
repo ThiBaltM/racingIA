@@ -12,6 +12,12 @@ class Car:
         self.x = 120;
         self.y = 300;
         self.imgOrigin = py.transform.scale(py.image.load(f"assets/car.png"),(50, 50));
+        self.imgControl = {
+            "left":[py.transform.scale(py.image.load(f"assets/left.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/leftPushed.png"),(50, 50))],
+            "right":[py.transform.scale(py.image.load(f"assets/right.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/rightPushed.png"),(50, 50))],
+            "engine":[py.transform.scale(py.image.load(f"assets/engine.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/enginePushed.png"),(50, 50))],
+            "brake":[py.transform.scale(py.image.load(f"assets/brake.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/brakePushed.png"),(50, 50))],
+                           }
         self.img = self.imgOrigin;
         self.turn = 0;
         self.turning = False;
@@ -19,8 +25,14 @@ class Car:
         self.score=0;
         self.scoreFinal =0;
         self.lenRay = 300;
-        self.demo = False;
+        self.demo = True;
         self.brain = brain;
+    
+        #controls
+        self.leftA=False;
+        self.rightA=False;
+        self.engineA=False;
+        self.brakeA=False;
     
     def disp(self):
         
@@ -108,17 +120,44 @@ class Car:
                 self.score += 500;
 
         self.screen.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2));
+    
+        #affichage controle
+        if(self.demo):
+            if(self.engineA):
+                self.screen.blit(self.imgControl["engine"][1], (1200, 80));
+            else:
+                self.screen.blit(self.imgControl["engine"][0], (1200, 80));
+    
+            if(self.brakeA):
+                self.screen.blit(self.imgControl["brake"][1], (1150, 80));
+            else:
+                self.screen.blit(self.imgControl["brake"][0], (1150, 80));
+    
+            if(self.leftA):
+                self.screen.blit(self.imgControl["left"][1], (1150, 30));
+            else:
+                self.screen.blit(self.imgControl["left"][0], (1150, 30));
+    
+            if(self.rightA):
+                self.screen.blit(self.imgControl["right"][1], (1200, 30));
+            else:
+                self.screen.blit(self.imgControl["right"][0], (1200, 30));
+
 
     def acting(self, inputs):
         act = self.brain.forward(inputs);
         for k in range(4):
-            if(act[k]>0.5 and k ==0):
+            if(act[k]>0.75 and k ==0):
+                self.engineA = True;
                 self.accelerate();
-            if(act[k]>0.5 and k==1):
+            elif(act[k]>0.75 and k==1):
+                self.brakeA=True;
                 self.brake();
-            if(act[k]>0.5 and k==2):
+            elif(act[k]>0.75 and k==2):
+                self.leftA=True;
                 self.left();
-            if(act[k]>0.5 and k==3):
+            elif(act[k]>0.75 and k==3):
+                self.rightA=True;
                 self.right();
 
     def left(self):
