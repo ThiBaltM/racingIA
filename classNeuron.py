@@ -26,7 +26,7 @@ class NeuralNetwork:
         else:
             parent1 = json.dumps(data)
             parent2 = json.dumps(data2)
-
+            print(parent1)
             self.input_size = parent1["input_size"]
             self.hidden_size = parent1["hidden_size"]
             self.output_size = parent1["output_size"]
@@ -96,7 +96,7 @@ class NeuralNetwork:
 
         return o
 
-    def save(self):
+    def export(self):
         data={
             'input_size':self.input_size,
             'hidden_size':self.hidden_size,

@@ -2,6 +2,7 @@ import pygame as py
 from classCar import Car
 from classRoad import Road
 from classNeuron import NeuralNetwork
+import random
 py.font.init()
 
 class Game:
@@ -11,7 +12,7 @@ class Game:
         self.compteur = 0;
         self.screenHeight, self.screenWidth = (self.screen.get_height(),self.screen.get_width());
         self.score = 0;
-        self.pop = 5;
+        self.pop = 15;
         self.road = py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight));
         self.trackBorder = py.mask.from_surface(self.road);
         self.x = 0;
@@ -33,10 +34,21 @@ class Game:
         self.listCar.sort(key=lambda x:x.score);
         self.listCar[-1].showData();
         if(self.lives<=0):
+            self.listCar.sort(key=lambda x:x.scoreFinal);
+
             self.lives = self.pop;
-            self.listCar =[];
-            for _ in range (self.pop):
-                self.listCar.append(Car(self, NeuralNetwork(8, 6, 4), self.tmpSurface ));
+            nListCar =[];
+            for k in range (3):
+                nListCar.append(Car(self, self.listCar[k].brain, self.tmpSurface ));
+            for k in range (3, 10):
+                p1 = self.listCar[random.randint(0,5)]
+                p2 = self.listCar[random.randint(0,5)]
+                nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export())));
+            for k in range(10,15):
+                nListCar.append(Car(self,NeuralNetwork(8,6,4), self.tmpSurface))
+            
+            self.listCar = nListCar;
+
 
         #myfont = py.font.SysFont('Impact', self.screen.get_width() // 74)
         #textScoreSurface = myfont.render(f"your score :{self.car.calculScore()}", False, (0,0,0))

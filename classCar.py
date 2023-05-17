@@ -68,7 +68,7 @@ class Car:
                 self.compteurMouv =0;
             else:
                 self.compteurMouv +=1;
-                if(self.compteurMouv >=100):
+                if(self.compteurMouv >=50):
                     self.die();
            
             #calcul des lasers
@@ -166,10 +166,10 @@ class Car:
         self.ko = True;
         self.game.lives -= 1;
         if self.score == len(self.game.roadAdvance.listPts):
-                        self.score = self.calculScore();
-                        self.score += 500;
+                        self.scoreFinal = self.calculScore();
+                        self.scoreFinal += 500;
         else:
-            self.score = self.calculScore();
+            self.scoreFinal = self.calculScore();
 
     def showData(self):
         if(self.engineA):
