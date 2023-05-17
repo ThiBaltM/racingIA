@@ -17,9 +17,10 @@ class Game:
         self.x = 0;
         self.y=0;
         self.roadAdvance = Road(self);
+        self.tmpSurface = py.Surface((self.screenWidth, self.screenHeight), py.SRCALPHA)
         self.listCar = [];
         for _ in range (self.pop):
-            self.listCar.append(Car(self, NeuralNetwork(8, 6, 4)));
+            self.listCar.append(Car(self, NeuralNetwork(8, 6, 4), self.tmpSurface));
         self.lives = self.pop;
 
 
@@ -29,12 +30,14 @@ class Game:
         py.draw.rect(self.screen, "white", py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
         print(self.compteur);
         print(self.lives);
+        self.listCar.sort(key=lambda x:x.score);
+        self.listCar[-1].showData();
         if(self.lives<=0):
             self.lives = self.pop;
             self.listCar =[];
             for _ in range (self.pop):
-                self.listCar.append(Car(self, NeuralNetwork(8, 6, 4)));
-            self.listCar.sort(key=lambda x:x.score)
+                self.listCar.append(Car(self, NeuralNetwork(8, 6, 4), self.tmpSurface ));
+
         #myfont = py.font.SysFont('Impact', self.screen.get_width() // 74)
         #textScoreSurface = myfont.render(f"your score :{self.car.calculScore()}", False, (0,0,0))
         #self.screen.blit(textScoreSurface,(10,10))

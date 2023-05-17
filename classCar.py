@@ -2,7 +2,7 @@ import pygame as py
 from math import pi, atan2, degrees, sqrt, cos, sin;
 
 class Car:
-    def __init__(self, game, brain):
+    def __init__(self, game, brain, tmpSurface):
         self.game = game;
         self.screen = game.screen;
         self.angle = 0.5*pi;
@@ -11,6 +11,7 @@ class Car:
         self.maxSpeed = 10
         self.x = 120;
         self.y = 300;
+        self.tmpSurface = tmpSurface;
         self.imgOrigin = py.transform.scale(py.image.load(f"assets/car.png"),(50, 50));
         self.imgControl = {
             "left":[py.transform.scale(py.image.load(f"assets/left.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/leftPushed.png"),(50, 50))],
@@ -75,15 +76,14 @@ class Car:
             tabRes = []
             tabInput = []
 
-            test = py.Surface((self.game.screenWidth, self.game.screenHeight), py.SRCALPHA)
             for angle in [self.angle+3*pi/8, self.angle+pi/4, self.angle+pi/8, self.angle, self.angle-pi/8, self.angle - pi/4, self.angle - 3*pi/8]:
-                test.fill((0,0,0,0));
+                self.tmpSurface.fill((0,0,0,0));
                 for k in range(60, self.lenRay+1, 60):
                     # Création d'une surface temporaire pour tracer la ligne
-                    py.draw.line(test, (255, 255, 255), (xStart, yStart), (xStart - k * cos(angle), yStart + k * sin(angle)), 2)
+                    py.draw.line(self.tmpSurface, (255, 255, 255), (xStart, yStart), (xStart - k * cos(angle), yStart + k * sin(angle)), 2)
 
                     # Création du masque à partir de la surface temporaire
-                    line_mask = py.mask.from_surface(test);
+                    line_mask = py.mask.from_surface(self.tmpSurface);
 
                     # Test de collision entre le masque de la ligne et le masque de la piste
                     collision_offset = (0,0);
@@ -123,29 +123,7 @@ class Car:
                 self.die()
 
         self.screen.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2));
-    
-        #affichage controle
-        if(self.demo):
-            if(self.engineA):
-                self.screen.blit(self.imgControl["engine"][1], (90, 80));
-            else:
-                self.screen.blit(self.imgControl["engine"][0], (90, 80));
-    
-            if(self.brakeA):
-                self.screen.blit(self.imgControl["brake"][1], (30, 80));
-            else:
-                self.screen.blit(self.imgControl["brake"][0], (30, 80));
-    
-            if(self.leftA):
-                self.screen.blit(self.imgControl["left"][1], (30, 30));
-            else:
-                self.screen.blit(self.imgControl["left"][0], (30, 30));
-    
-            if(self.rightA):
-                self.screen.blit(self.imgControl["right"][1], (90, 30));
-            else:
-                self.screen.blit(self.imgControl["right"][0], (90, 30));
-
+            
 
     def acting(self, inputs):
         act = self.brain.forward(inputs);
@@ -192,3 +170,24 @@ class Car:
                         self.score += 500;
         else:
             self.score = self.calculScore();
+
+    def showData(self):
+        if(self.engineA):
+            self.screen.blit(self.imgControl["engine"][1], (90, 80));
+        else:
+            self.screen.blit(self.imgControl["engine"][0], (90, 80));
+
+        if(self.brakeA):
+            self.screen.blit(self.imgControl["brake"][1], (30, 80));
+        else:
+            self.screen.blit(self.imgControl["brake"][0], (30, 80));
+
+        if(self.leftA):
+            self.screen.blit(self.imgControl["left"][1], (30, 30));
+        else:
+            self.screen.blit(self.imgControl["left"][0], (30, 30));
+
+        if(self.rightA):
+            self.screen.blit(self.imgControl["right"][1], (90, 30));
+        else:
+            self.screen.blit(self.imgControl["right"][0], (90, 30));
