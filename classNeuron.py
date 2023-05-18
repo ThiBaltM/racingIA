@@ -13,7 +13,7 @@ class NeuralNetwork:
             self.bias1 = [random.random()*2-1 for _ in range(hidden_size)]
             self.bias2 = [random.random()*2-1 for _ in range(output_size)]
         elif data2==None:
-            parent1 = json.dumps(data)
+            parent1 = json.loads(data)
 
             self.input_size = parent1["input_size"]
             self.hidden_size = parent1["hidden_size"]
@@ -24,14 +24,17 @@ class NeuralNetwork:
             self.bias2 = parent1["bias2"]
 
         else:
-            parent1 = json.dumps(data)
-            parent2 = json.dumps(data2)
-            print(parent1)
+            parent1 = json.loads(data)
+            parent2 = json.loads(data2)
             self.input_size = parent1["input_size"]
             self.hidden_size = parent1["hidden_size"]
             self.output_size = parent1["output_size"]
             self.weights1 = [];
-            for w1, w2 in parent1["weights1"], parent2["weights1"]:
+            for k in range (len(parent1["weights1"])):
+                self.weights1.append([])
+                w1 = parent1["weights1"][k]
+                w2 = parent2["weights1"][k]
+                print(w1)
                 if(random.random()<0.999):
                     self.weights1.append(random.uniform(w1,w2))
                 else:
@@ -39,15 +42,21 @@ class NeuralNetwork:
                     self.weights1.append(random.random())
             
             self.weights2 = [];
-            for w1, w2 in parent1["weights2"], parent2["weights2"]:
-                if(random.random()<0.999):
-                    self.weights2.append(random.uniform(w1,w2))
-                else:
-                    print("mutation")
-                    self.weights2.append(random.random())
+            for k in range(len(parent1["weights2"])):
+                self.weights2.append([])
+                for i in range(len(parent1["weights2"][0])):
+                    w1 = parent1["weights2"][k][i]
+                    w2 = parent2["weights2"][k][i]
+                    if(random.random()<0.999):
+                        self.weights2[k].append(random.uniform(w1,w2))
+                    else:
+                        print("mutation")
+                        self.weights2[k].append(random.random())
 
             self.bias1 = [];
-            for b1, b2 in parent1["bias1"], parent2["bias1"]:
+            for k in range(len(parent1["bias1"])):
+                b1 = parent1["bias1"][k]
+                b2 = parent2["bias1"][k]
                 if(random.random()<0.999):
                     self.bias1.append(random.uniform(b1,b2))
                 else:
@@ -55,7 +64,9 @@ class NeuralNetwork:
                     self.bias1.append(random.random())
             
             self.bias2 = [];
-            for b1, b2 in parent1["bias2"], parent2["bias2"]:
+            for k in range(len(parent1["bias2"])):
+                b1 = parent1["bias1"][k]
+                b2 = parent2["bias1"][k]
                 if(random.random()<0.999):
                     self.bias2.append(random.uniform(b1,b2))
                 else:

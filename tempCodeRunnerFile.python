@@ -1,0 +1,15 @@
+import json
+
+def export():
+    data={
+        'input_size':8,
+        'hidden_size':6,
+        'output_size':4,
+        'weights1':[1,2,3,4,5],
+        'weights2':[1,2,3],
+        'bias1':[1,2,3,4], 
+        'bias2':[1,2]
+    };
+    return json.dumps(data);
+
+print(json.loads(export())["weights1"][2])
