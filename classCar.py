@@ -79,7 +79,7 @@ class Car:
             for angle in [self.angle+3*pi/8, self.angle+pi/4, self.angle+pi/8, self.angle, self.angle-pi/8, self.angle - pi/4, self.angle - 3*pi/8]:
                 self.tmpSurface.fill((0,0,0,0));
                 for k in range(60, self.lenRay+1, 60):
-                    # Création d'une surface temporaire pour tracer la ligne
+                   
                     py.draw.line(self.tmpSurface, (255, 255, 255), (xStart, yStart), (xStart - k * cos(angle), yStart + k * sin(angle)), 2)
 
                     # Création du masque à partir de la surface temporaire

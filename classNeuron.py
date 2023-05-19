@@ -35,7 +35,7 @@ class NeuralNetwork:
                 for i in range(len(parent1["weights1"][0])):
                     w1 = parent1["weights1"][k][i]
                     w2 = parent2["weights1"][k][i]
-                    if(random.random()<0.999):
+                    if(random.random()<0.997):
                         self.weights1[k].append(random.uniform(w1,w2))
                     else:
                         print("mutation")
