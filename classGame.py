@@ -41,8 +41,8 @@ class Game:
             for k in range (3):
                 nListCar.append(Car(self, self.listCar[k].brain, self.tmpSurface ));
             for k in range (3, 12):
-                p1 = self.listCar[random.randint(0,5)]
-                p2 = self.listCar[random.randint(0,5)]
+                p1 = self.listCar[random.randint(0,3)]
+                p2 = self.listCar[random.randint(0,3)]
                 nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export()), self.tmpSurface));
             for k in range(12,15):
                 nListCar.append(Car(self,NeuralNetwork(8,6,4), self.tmpSurface))
