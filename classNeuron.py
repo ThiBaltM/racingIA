@@ -32,14 +32,14 @@ class NeuralNetwork:
             self.weights1 = [];
             for k in range (len(parent1["weights1"])):
                 self.weights1.append([])
-                w1 = parent1["weights1"][k]
-                w2 = parent2["weights1"][k]
-                print(w1)
-                if(random.random()<0.999):
-                    self.weights1.append(random.uniform(w1,w2))
-                else:
-                    print("mutation")
-                    self.weights1.append(random.random())
+                for i in range(len(parent1["weights1"][0])):
+                    w1 = parent1["weights1"][k][i]
+                    w2 = parent2["weights1"][k][i]
+                    if(random.random()<0.999):
+                        self.weights1[k].append(random.uniform(w1,w2))
+                    else:
+                        print("mutation")
+                        self.weights1[k].append(random.random())
             
             self.weights2 = [];
             for k in range(len(parent1["weights2"])):

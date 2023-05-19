@@ -68,7 +68,7 @@ class Car:
                 self.compteurMouv =0;
             else:
                 self.compteurMouv +=1;
-                if(self.compteurMouv >=50):
+                if(self.compteurMouv >=70):
                     self.die();
            
             #calcul des lasers

@@ -33,18 +33,18 @@ class Game:
         print(self.lives);
         self.listCar.sort(key=lambda x:x.score);
         self.listCar[-1].showData();
-        if(self.lives<=0):
-            self.listCar.sort(key=lambda x:x.scoreFinal);
+        if(self.lives<0):
+            self.listCar.sort(key=lambda x:x.scoreFinal, reverse=True);
 
             self.lives = self.pop;
             nListCar =[];
             for k in range (3):
                 nListCar.append(Car(self, self.listCar[k].brain, self.tmpSurface ));
-            for k in range (3, 10):
+            for k in range (3, 12):
                 p1 = self.listCar[random.randint(0,5)]
                 p2 = self.listCar[random.randint(0,5)]
-                nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export())));
-            for k in range(10,15):
+                nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export()), self.tmpSurface));
+            for k in range(12,15):
                 nListCar.append(Car(self,NeuralNetwork(8,6,4), self.tmpSurface))
             
             self.listCar = nListCar;
