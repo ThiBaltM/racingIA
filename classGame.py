@@ -33,7 +33,7 @@ class Game:
         print(self.lives);
         self.listCar.sort(key=lambda x:x.score);
         self.listCar[-1].showData();
-        if(self.lives<0):
+        if(self.lives<=0):
             self.listCar.sort(key=lambda x:x.scoreFinal, reverse=True);
 
             self.lives = self.pop;

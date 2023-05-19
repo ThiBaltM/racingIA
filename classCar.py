@@ -106,6 +106,7 @@ class Car:
                     lenght = v/self.lenRay;
                     if(v<15):
                         self.die();
+                        break;
                     
                     tabInput.append(lenght*2-1);
                 else:
