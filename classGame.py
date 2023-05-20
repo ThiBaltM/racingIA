@@ -37,6 +37,7 @@ class Game:
             self.lives = self.batchTry;
             if((self.numBatch+1)*self.batchTry>=self.pop):
                 self.gen +=1;
+                self.numBatch = 0;
                 self.listCar.sort(key=lambda x:x.scoreFinal, reverse=True);
 
                 nListCar =[];
@@ -48,7 +49,7 @@ class Game:
                     tmp = [k for k in range(200)]
                     tmp.remove(r1[0])
                     tmp2 = [250-k for k in range(200)]
-                    tmp2.remove(r1[0])
+                    tmp2.remove(250-r1[0])
                     r2 = random.choices(population=tmp, weights=tmp2, k=1)
 
                     p1 = self.listCar[r1[0]]
