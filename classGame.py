@@ -24,6 +24,7 @@ class Game:
         for _ in range (self.pop):
             self.listCar.append(Car(self, NeuralNetwork(10, 7, 4), self.tmpSurface));
         self.lives = self.pop;
+        self.gen = 0;
 
 
           
@@ -35,6 +36,7 @@ class Game:
         self.listCar.sort(key=lambda x:x.score);
         self.listCar[-1].showData();
         if(self.lives<=0):
+            self.gen +=1;
             self.listCar.sort(key=lambda x:x.scoreFinal, reverse=True);
 
             self.lives = self.pop;
@@ -42,8 +44,14 @@ class Game:
             for k in range (3):
                 nListCar.append(Car(self, self.listCar[k].brain, self.tmpSurface ));
             for k in range (3, 12):
-                p1 = self.listCar[random.randint(0,3)]
-                p2 = self.listCar[random.randint(0,3)]
+                r1 = random.randint(0,4)
+                r2 = []
+                for k in range(4):
+                    if(k!=r1):
+                        r2.append(k)
+                r2 = random.choice(r2)
+                p1 = self.listCar[r1]
+                p2 = self.listCar[r2]
                 nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export()), self.tmpSurface));
             for k in range(12,15):
                 nListCar.append(Car(self,NeuralNetwork(10,7,4), self.tmpSurface))
@@ -74,5 +82,10 @@ class Game:
         self.screen.blit(self.road, (0,0));
         for car in self.listCar:
             car.disp();
+        
+        #afficher génération
+        font = py.font.SysFont(None, 24)
+        img = font.render('gen : '+str(self.gen), True, (0,0,0))
+        self.screen.blit(img, (20, 10))
         
         self.compteur += 1;
