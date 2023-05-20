@@ -10,7 +10,11 @@ def showRes():
             else:
                 py.draw.rect(screen, "blue", py.Rect(x*unit,y*unit,unit, unit));
 
-            py.display.flip()
+        print(f"next row {y}")
+        py.display.flip()
+    print("end")
+    py.display.flip()
+
 #initialisation valeurs plateau
 largeurEcran, hauteurEcran = (1280, 720)
 #paramétrage de l'affichage

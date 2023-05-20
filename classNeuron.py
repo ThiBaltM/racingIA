@@ -4,6 +4,7 @@ import json
 
 class NeuralNetwork:
     def __init__(self, input_size=None, hidden_size=None,output_size=None, data=None, data2=None):
+        noMutateRate = 0.990
         if(data2==None and data==None):
             self.input_size = input_size
             self.hidden_size = hidden_size
@@ -35,7 +36,7 @@ class NeuralNetwork:
                 for i in range(len(parent1["weights1"][0])):
                     w1 = parent1["weights1"][k][i]
                     w2 = parent2["weights1"][k][i]
-                    if(random.random()<0.995):
+                    if(random.random()<noMutateRate):
                         self.weights1[k].append(random.uniform(w1,w2))
                     else:
                         print("mutation")
@@ -47,7 +48,7 @@ class NeuralNetwork:
                 for i in range(len(parent1["weights2"][0])):
                     w1 = parent1["weights2"][k][i]
                     w2 = parent2["weights2"][k][i]
-                    if(random.random()<0.999):
+                    if(random.random()<noMutateRate):
                         self.weights2[k].append(random.uniform(w1,w2))
                     else:
                         print("mutation")
@@ -57,7 +58,7 @@ class NeuralNetwork:
             for k in range(len(parent1["bias1"])):
                 b1 = parent1["bias1"][k]
                 b2 = parent2["bias1"][k]
-                if(random.random()<0.999):
+                if(random.random()<noMutateRate):
                     self.bias1.append(random.uniform(b1,b2))
                 else:
                     print("mutation")
@@ -67,7 +68,7 @@ class NeuralNetwork:
             for k in range(len(parent1["bias2"])):
                 b1 = parent1["bias1"][k]
                 b2 = parent2["bias1"][k]
-                if(random.random()<0.999):
+                if(random.random()<noMutateRate):
                     self.bias2.append(random.uniform(b1,b2))
                 else:
                     print("mutation")
