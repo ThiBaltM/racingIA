@@ -31,8 +31,6 @@ class Game:
     def update(self):
         """Cette fonction met a jour les evenement divers pouvant avoir lieux"""
         py.draw.rect(self.screen, "white", py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
-        print(self.compteur);
-        print(self.lives);
         self.listCar.sort(key=lambda x:x.score);
         self.listCar[-1].showData();
         if(self.lives<=0):
@@ -87,5 +85,7 @@ class Game:
         font = py.font.SysFont(None, 24)
         img = font.render('gen : '+str(self.gen), True, (0,0,0))
         self.screen.blit(img, (20, 10))
+        img = font.render('remain : '+str(self.lives), True, (0,0,0))
+        self.screen.blit(img, (100, 10))
         
         self.compteur += 1;

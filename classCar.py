@@ -61,6 +61,10 @@ class Car:
                 self.die();
             """
             self.turning = False;
+            self.leftA = False;
+            self.rightA = False;
+            self.brakeA = False;
+            self.engineA = False;
         
             score = self.score
             self.score = self.game.roadAdvance.advance(self, self.game.compteur, self.score);

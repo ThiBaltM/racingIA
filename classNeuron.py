@@ -10,8 +10,8 @@ class NeuralNetwork:
             self.output_size = output_size
             self.weights1 = [[random.random() for _ in range(input_size)] for _ in range(hidden_size)]
             self.weights2 = [[random.random() for _ in range(hidden_size)] for _ in range(output_size)]
-            self.bias1 = [random.random()*2-1 for _ in range(hidden_size)]
-            self.bias2 = [random.random()*2-1 for _ in range(output_size)]
+            self.bias1 = [(random.random()*2-1)*2 for _ in range(hidden_size)]
+            self.bias2 = [(random.random()*2-1)*2 for _ in range(output_size)]
         elif data2==None:
             parent1 = json.loads(data)
 
@@ -80,6 +80,7 @@ class NeuralNetwork:
         v = [];
         for val in tab:
             v.append(math.floor(val*1000)/1000)
+        print(v)
 
     def calcVal(self,tabInput, tabW, bias, outputLenght):
         res = [];
@@ -101,6 +102,7 @@ class NeuralNetwork:
 
         # Compute the dot product of the resulting hidden layer and the second set of weights, and add the bias term
         z3 = self.calcVal(z2, self.weights2, self.bias2, self.output_size)
+
 
         # Apply the sigmoid activation function again to obtain the final output
         o = [self.sigmoid(z3[j]) for j in range(self.output_size)]
