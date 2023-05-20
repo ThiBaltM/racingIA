@@ -3,6 +3,7 @@ from classCar import Car
 from classRoad import Road
 from classNeuron import NeuralNetwork
 import random
+import json
 py.font.init()
 
 class Game:
@@ -14,7 +15,7 @@ class Game:
         self.score = 0;
         self.pop = 15;
         self.road = py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight));
-        self.trackBorder = py.mask.from_surface(self.road);
+        self.trackBorder = json.load(open("roadCollides.json"))
         self.x = 0;
         self.y=0;
         self.roadAdvance = Road(self);

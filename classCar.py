@@ -26,7 +26,7 @@ class Car:
         self.score=0;
         self.scoreFinal =0;
         self.lenRay = 300;
-        self.demo = False;
+        self.demo = True;
         self.brain = brain;
         self.compteurMouv = 0;
     
@@ -78,28 +78,18 @@ class Car:
 
             for angle in [self.angle+3*pi/8, self.angle+pi/4, self.angle+pi/8, self.angle, self.angle-pi/8, self.angle - pi/4, self.angle - 3*pi/8]:
                 self.tmpSurface.fill((0,0,0,0));
-                for k in range(60, self.lenRay+1, 60):
+                for k in range(0, self.lenRay, 4): #4 correspond to the unit of collisionMaker
                    
-                    py.draw.line(self.tmpSurface, (255, 255, 255), (xStart, yStart), (xStart - k * cos(angle), yStart + k * sin(angle)), 2)
+                    targetX, targetY = (xStart - k * cos(angle), yStart + k * sin(angle))
 
-                    # Création du masque à partir de la surface temporaire
-                    line_mask = py.mask.from_surface(self.tmpSurface);
-
-                    # Test de collision entre le masque de la ligne et le masque de la piste
-                    collision_offset = (0,0);
-                    overlap_mask = self.game.trackBorder.overlap(line_mask, collision_offset);
-                    if(overlap_mask != None):
-                        # Ajout du résultat de la collision à la liste des résultats
+                    if self.game.trackBorder[round(targetY/4)][round(targetX/4)]:
                         break;
-                tabRes.append(overlap_mask);
+                
+                tabRes.append((targetX,targetY));
 
                 # Affichage de la ligne sur l'écran
                 if(self.demo):
-                    if overlap_mask is None:
-                        py.draw.line(self.screen, (0, 255, 255), (xStart, yStart), (xStart - self.lenRay * cos(angle), yStart + self.lenRay * sin(angle)), 2)
-                    else:
-                        collision_coords = overlap_mask;
-                        py.draw.line(self.screen, (30, 100, 100), (xStart, yStart), collision_coords, 2)
+                    py.draw.line(self.screen, (30, 100, 100), (xStart, yStart), (targetX,targetY), 2)
             for coords in tabRes:
                 if(coords!=None):
                     v = sqrt((xStart - coords[0])**2+(yStart - coords[1])**2);
