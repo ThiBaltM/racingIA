@@ -22,7 +22,7 @@ class Game:
         self.tmpSurface = py.Surface((self.screenWidth, self.screenHeight), py.SRCALPHA)
         self.listCar = [];
         for _ in range (self.pop):
-            self.listCar.append(Car(self, NeuralNetwork(8, 6, 4), self.tmpSurface));
+            self.listCar.append(Car(self, NeuralNetwork(10, 7, 4), self.tmpSurface));
         self.lives = self.pop;
 
 
@@ -46,7 +46,7 @@ class Game:
                 p2 = self.listCar[random.randint(0,3)]
                 nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export()), self.tmpSurface));
             for k in range(12,15):
-                nListCar.append(Car(self,NeuralNetwork(8,6,4), self.tmpSurface))
+                nListCar.append(Car(self,NeuralNetwork(10,7,4), self.tmpSurface))
             
             self.listCar = nListCar;
 

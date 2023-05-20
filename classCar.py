@@ -75,8 +75,9 @@ class Car:
             xStart, yStart = (self.x, self.y)
             tabRes = []
             tabInput = []
+            angleUnit = pi*5/48
 
-            for angle in [self.angle+3*pi/8, self.angle+pi/4, self.angle+pi/8, self.angle, self.angle-pi/8, self.angle - pi/4, self.angle - 3*pi/8]:
+            for angle in [self.angle+4*angleUnit, self.angle+3*angleUnit, self.angle+2*angleUnit, self.angle+angleUnit, self.angle, self.angle-angleUnit, self.angle - 2*angleUnit, self.angle - 3*angleUnit, self.angle-4*angleUnit]:
                 self.tmpSurface.fill((0,0,0,0));
                 for k in range(0, self.lenRay, 4): #4 correspond to the unit of collisionMaker
                    
