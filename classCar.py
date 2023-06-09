@@ -8,11 +8,14 @@ class Car:
         self.angle = pi;
         self.maxTurn = pi/4;
         self.speed = 0;
-        self.maxSpeed = 10
+        self.maxSpeed = 10;
+        self.minSpeed = 1;
         self.x = 90;
         self.y = 660;
         self.tmpSurface = tmpSurface;
-        self.imgOrigin = py.transform.scale(py.image.load(f"assets/car.png"),(50, 50));
+        self.imgOrigin = {0:py.transform.scale(py.image.load(f"assets/car.png"),(50, 50))};
+        for i in [1,2,3,4,5,6,-1,-2,-3,-4,-5,-6]:
+            self.imgOrigin[i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(50, 50))
         self.imgControl = {
             "left":[py.transform.scale(py.image.load(f"assets/left.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/leftPushed.png"),(50, 50))],
             "right":[py.transform.scale(py.image.load(f"assets/right.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/rightPushed.png"),(50, 50))],
@@ -48,8 +51,8 @@ class Car:
             self.x -= cos(self.angle)*self.speed;
             self.y += sin(self.angle)*self.speed;
             self.angle += self.turn;
-
-            self.img = py.transform.rotate(self.imgOrigin, degrees(self.angle));
+        
+            self.img = py.transform.rotate(self.imgOrigin[round(self.angle/self.maxTurn)*6/(round(self.speed)*(2/9)+(7/9))], degrees(self.angle));
 
             """
             #collide
@@ -152,7 +155,7 @@ class Car:
 
     def brake(self):
         self.brakeA=True;
-        if(self.speed >0.5):
+        if(self.speed >self.minSpeed):
             self.speed -=0.4;
 
     def calculScore(self):
