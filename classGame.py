@@ -27,6 +27,7 @@ class Game:
             self.listCar.append(Car(self, NeuralNetwork(10, 7, 4), self.tmpSurface));
         self.lives = self.batchTry;
         self.gen = 0;
+        self.currentListCar = self.listCar[:self.batchTry];
 
 
           
@@ -59,8 +60,11 @@ class Game:
                     nListCar.append(Car(self,NeuralNetwork(10,7,4), self.tmpSurface))
                 
                 self.listCar = nListCar;
+                self.currentListCar = self.listCar[:self.batchTry]
             else:
                 self.numBatch +=1;
+                self.currentListCar = self.listCar[self.numBatch*self.batchTry: (self.numBatch+1)*self.batchTry]
+                print(self.currentListCar)
                 
 
 
@@ -80,12 +84,12 @@ class Game:
             self.listCar[0].right()
         """
         
-        
 
         
-            
+        self.currentListCar.sort(key=lambda x:x.scoreFinal, reverse=True);   
         self.screen.blit(self.road, (0,0));
-        for car in self.listCar[(self.numBatch*self.batchTry):(self.batchTry*(self.numBatch+1))]:
+        self.currentListCar[0].showData();
+        for car in self.currentListCar:
             car.disp();
         
         #afficher génération

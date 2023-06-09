@@ -53,11 +53,7 @@ class Car:
             self.angle += self.turn;
 
             indexImg = round(round(self.turn/self.maxTurn)*6/(round(self.speed)*(2/9)+(7/9)));
-            print(self.turn)
-            print(self.maxTurn)
-            print(round(self.speed)*(2/9)+(7/9))
-            print(indexImg)
-            print()
+  
             self.img = py.transform.rotate(self.imgOrigin[indexImg], degrees(self.angle));
 
             """
