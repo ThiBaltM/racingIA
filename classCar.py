@@ -13,9 +13,9 @@ class Car:
         self.x = 90;
         self.y = 660;
         self.tmpSurface = tmpSurface;
-        self.imgOrigin = {0:py.transform.scale(py.image.load(f"assets/car0.png"),(50, 50))};
+        self.imgOrigin = {0:py.transform.scale(py.image.load(f"assets/car0.png"),(100, 100))};
         for i in [1,2,3,4,5,6,-1,-2,-3,-4,-5,-6]:
-            self.imgOrigin[i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(50, 50))
+            self.imgOrigin[i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(100, 100))
         self.imgControl = {
             "left":[py.transform.scale(py.image.load(f"assets/left.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/leftPushed.png"),(50, 50))],
             "right":[py.transform.scale(py.image.load(f"assets/right.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/rightPushed.png"),(50, 50))],
@@ -39,7 +39,7 @@ class Car:
         self.engineA=False;
         self.brakeA=False;
     
-    def disp(self):
+    def disp(self,x,y):
         
         if(not self.ko):
             if(not self.turning):
@@ -123,7 +123,7 @@ class Car:
             if self.score == len(self.game.roadAdvance.listPts):
                 self.die()
 
-        self.screen.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2));
+        self.screen.blit(self.img, (self.game.screenWidth/2 + x -(self.x-self.img.get_width()/2), self.game.screenHeight/2 + y -(self.y-self.img.get_height()/2)));
             
 
     def acting(self, inputs):

@@ -17,7 +17,7 @@ class Game:
         self.pop = 500;
         self.batchTry = 25;
         self.numBatch = 0;
-        self.road = py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight));
+        self.road = py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth*2, self.screenHeight*2));
         self.trackBorder = json.load(open("roadCollides.json"))
         self.x = 0;
         self.y=0;
@@ -84,14 +84,14 @@ class Game:
         if self.pressed[py.K_d]:
             self.listCar[0].right()
         """
-        
-
-        
         self.currentListCar.sort(key=shortingScore, reverse=True);   
-        self.screen.blit(self.road, (0,0));
-        self.currentListCar[0].showData();
+        firstCar = self.currentListCar[0]
+        x,y = firstCar.x, firstCar.y;
+        self.screen.blit(self.road, (self.screenWidth/2-x,self.screenHeight/2-y));
+
+        firstCar.showData();
         for car in self.currentListCar:
-            car.disp();
+            car.disp(x,y);
         
         #afficher génération
         font = py.font.SysFont(None, 24)
