@@ -87,7 +87,7 @@ class Game:
         self.currentListCar.sort(key=shortingScore, reverse=True);   
         firstCar = self.currentListCar[0]
         x,y = firstCar.x, firstCar.y;
-        self.screen.blit(self.road, (self.screenWidth/2-x,self.screenHeight/2-y));
+        self.screen.blit(self.road, (-2*x+self.screenWidth/2,-2*y+self.screenHeight/2));
 
         firstCar.showData();
         for car in self.currentListCar:

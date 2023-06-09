@@ -123,7 +123,7 @@ class Car:
             if self.score == len(self.game.roadAdvance.listPts):
                 self.die()
 
-        self.screen.blit(self.img, (self.game.screenWidth/2 + x -(self.x-self.img.get_width()/2), self.game.screenHeight/2 + y -(self.y-self.img.get_height()/2)));
+        self.screen.blit(self.img, (self.game.screenWidth/2 - self.img.get_width()/2 + x - self.x, self.game.screenHeight/2 -self.img.get_height()/2 - y + self.y));
             
 
     def acting(self, inputs):
