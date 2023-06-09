@@ -2,6 +2,7 @@ import pygame as py
 from classCar import Car
 from classRoad import Road
 from classNeuron import NeuralNetwork
+from functionShortCar import shortingScore;
 import random
 import json
 py.font.init()
@@ -86,7 +87,7 @@ class Game:
         
 
         
-        self.currentListCar.sort(key=lambda x:x.scoreFinal, reverse=True);   
+        self.currentListCar.sort(key=shortingScore, reverse=True);   
         self.screen.blit(self.road, (0,0));
         self.currentListCar[0].showData();
         for car in self.currentListCar:
