@@ -6,14 +6,14 @@ class Car:
         self.game = game;
         self.screen = game.screen;
         self.angle = pi;
-        self.maxTurn = pi/4;
-        self.speed = 0;
+        self.maxTurn = pi/120;
+        self.speed = 1;
         self.maxSpeed = 10;
         self.minSpeed = 1;
         self.x = 90;
         self.y = 660;
         self.tmpSurface = tmpSurface;
-        self.imgOrigin = {0:py.transform.scale(py.image.load(f"assets/car.png"),(50, 50))};
+        self.imgOrigin = {0:py.transform.scale(py.image.load(f"assets/car0.png"),(50, 50))};
         for i in [1,2,3,4,5,6,-1,-2,-3,-4,-5,-6]:
             self.imgOrigin[i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(50, 50))
         self.imgControl = {
@@ -51,8 +51,14 @@ class Car:
             self.x -= cos(self.angle)*self.speed;
             self.y += sin(self.angle)*self.speed;
             self.angle += self.turn;
-        
-            self.img = py.transform.rotate(self.imgOrigin[round(self.angle/self.maxTurn)*6/(round(self.speed)*(2/9)+(7/9))], degrees(self.angle));
+
+            indexImg = round(round(self.turn/self.maxTurn)*6/(round(self.speed)*(2/9)+(7/9)));
+            print(self.turn)
+            print(self.maxTurn)
+            print(round(self.speed)*(2/9)+(7/9))
+            print(indexImg)
+            print()
+            self.img = py.transform.rotate(self.imgOrigin[indexImg], degrees(self.angle));
 
             """
             #collide
@@ -138,13 +144,13 @@ class Car:
 
     def left(self):
         self.leftA=True;
-        if(self.turn<= pi/120 and self.speed !=0):
+        if(self.turn<= self.maxTurn and self.speed !=0):
             self.turn += pi/1200;
         self.turning = True;
 
     def right(self):
         self.rightA=True;
-        if(self.turn >= -pi/120 and self.speed !=0):
+        if(self.turn >= -self.maxTurn and self.speed !=0):
             self.turn -= pi/1200;
         self.turning = True;
 
