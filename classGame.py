@@ -58,7 +58,7 @@ class Game:
                     p2 = self.listCar[r2[0]]
                     nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export()), self.tmpSurface));
                 for k in range(475,500):
-                    nListCar.append(Car(self,NeuralNetwork(10,7,4,9), self.tmpSurface))
+                    nListCar.append(Car(self,NeuralNetwork(10,8,6,4), self.tmpSurface))
                 
                 self.listCar = nListCar;
                 self.currentListCar = self.listCar[:self.batchTry]

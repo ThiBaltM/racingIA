@@ -7,7 +7,7 @@ class Car:
         self.screen = game.screen;
         self.angle = pi;
         self.maxTurn = pi/120;
-        self.speed = 1;
+        self.speed = 0;
         self.maxSpeed = 10;
         self.minSpeed = 1;
         self.x = 90;
@@ -52,7 +52,10 @@ class Car:
             self.y += sin(self.angle)*self.speed;
             self.angle += self.turn;
 
-            indexImg = round(round(self.turn/self.maxTurn)*6/(round(self.speed)*(2/9)+(7/9)));
+            if(self.speed <1):
+                indexImg = round(self.turn/self.maxTurn)*6;
+            else:
+                indexImg = round(round(self.turn/self.maxTurn)*6/(round(self.speed)*(2/9)+(7/9)));
   
             self.img = py.transform.rotate(self.imgOrigin[indexImg], degrees(self.angle));
 
@@ -113,7 +116,7 @@ class Car:
                     tabInput.append(1);
             
             #ajout moteur et volant aux données
-            tabInput.append(self.speed/self.maxSpeed*2-1);
+            tabInput.append(self.speed/self.maxSpeed);
             tabInput.append(self.turn/self.maxTurn);
 
             self.acting(tabInput);
@@ -161,7 +164,7 @@ class Car:
             self.speed -=0.4;
 
     def calculScore(self):
-        return self.score*300 - self.game.compteur;
+        return self.score*400 - self.game.compteur;
 
     def die(self):
         self.ko = True;
