@@ -25,7 +25,7 @@ class Game:
         self.tmpSurface = py.Surface((self.screenWidth, self.screenHeight), py.SRCALPHA)
         self.listCar = [];
         for _ in range (self.pop):
-            self.listCar.append(Car(self, NeuralNetwork(10, 7, 4, 9), self.tmpSurface));
+            self.listCar.append(Car(self, NeuralNetwork(10, 8, 6, 4), self.tmpSurface));
         self.lives = self.batchTry;
         self.gen = 0;
         self.currentListCar = self.listCar[:self.batchTry];
