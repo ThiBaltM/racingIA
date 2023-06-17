@@ -43,6 +43,7 @@ class Car:
         self.brakeA=False;
 
         self.indexImg = 0;
+        self.tabInput = [0 for _ in range(10)];
     
     def disp(self,x,y):
         
@@ -91,7 +92,7 @@ class Car:
             #calcul des lasers
             xStart, yStart = (self.x, self.y)
             tabRes = []
-            tabInput = []
+            self.tabInput = []
             angleUnit = pi*5/48
 
             for angle in [self.angle+4*angleUnit, self.angle+3*angleUnit, self.angle+2*angleUnit, self.angle+angleUnit, self.angle, self.angle-angleUnit, self.angle - 2*angleUnit, self.angle - 3*angleUnit, self.angle-4*angleUnit]:
@@ -116,15 +117,15 @@ class Car:
                         self.die();
                         break;
                     
-                    tabInput.append(lenght*2-1);
+                    self.tabInput.append(lenght*2-1);
                 else:
-                    tabInput.append(1);
+                    self.tabInput.append(1);
             
             #ajout moteur et volant aux données
-            tabInput.append(self.speed/self.maxSpeed);
-            tabInput.append(self.turn/self.maxTurn);
+            self.tabInput.append(self.speed/self.maxSpeed);
+            self.tabInput.append(self.turn/self.maxTurn);
 
-            self.acting(tabInput);
+            self.acting(self.tabInput);
 
 
 
@@ -144,15 +145,16 @@ class Car:
 
     def acting(self, inputs):
         act = self.brain.forward(inputs);
-        for k in range(4):
-            if(act[k]>0.75 and k ==0):
+        for k in range(2):
+            if(act[k]>0.5 and k ==0):
                 self.accelerate();
-            if(act[k]>0.75 and k==1):               
+            elif(act[k]<-0.5 and k == 0):
                 self.brake();
-            if(act[k]>0.75 and k==2):
+            if(act[k]>0.5 and k==1):               
                 self.left();
-            if(act[k]>0.75 and k==3):
+            elif(act[k]<0.5 and k==1):
                 self.right();
+
 
     def left(self):
         self.leftA=True;
@@ -209,3 +211,22 @@ class Car:
             self.screen.blit(self.imgControl["right"][1], (90, 30));
         else:
             self.screen.blit(self.imgControl["right"][0], (90, 30));
+        
+        self.dispNeuralNetwork()
+    
+
+    def dispNeuralNetwork(self):
+        x = 800;
+        y = 10;
+        font = py.font.SysFont(None, 24)
+
+        for i in range(10):
+            if(self.tabInput[i]>0):
+                img = font.render(str(self.tabInput[i]), True, (10,200,10))
+            else:
+                img = font.render(str(self.tabInput[i]), True, (200,10,10))
+            print(x,y+20*i)
+            self.screen.blit(img, (x,y+20*i))
+
+
+
