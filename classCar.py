@@ -238,9 +238,9 @@ class Car:
         #hidden layer 1
         for i in range(8):
             if(self.brain.bias1[i] >0):
-                py.draw.circle(self.screen, (10,200,10), (x+115,y+30*j+8), self.brain.bias1[i]*5);
+                py.draw.circle(self.screen, (10,200,10), (x+115,y+30*i+8), self.brain.bias1[i]*10);
             else:
-                py.draw.circle(self.screen, (200,10,10), (x+115,y+30*j+8), self.brain.bias1[i]*5);
+                py.draw.circle(self.screen, (200,10,10), (x+115,y+30*i+8), abs(self.brain.bias1[i]*10));
 
                         
 
