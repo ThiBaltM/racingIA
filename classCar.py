@@ -13,16 +13,19 @@ class Car:
         self.x = 90;
         self.y = 660;
         self.tmpSurface = tmpSurface;
-        self.imgOrigin = {0:py.transform.scale(py.image.load(f"assets/car0.png"),(100, 100))};
-        for i in [1,2,3,4,5,6,-1,-2,-3,-4,-5,-6]:
-            self.imgOrigin[i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(100, 100))
+        self.first = False;
+        self.imgOrigin = {'blue':{}, 'green':{}};
+        for i in [0,1,2,3,4,5,6,-1,-2,-3,-4,-5,-6]:
+            self.imgOrigin['blue'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(100, 100))
+            self.imgOrigin['green'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}First.png"),(100, 100))
+
         self.imgControl = {
             "left":[py.transform.scale(py.image.load(f"assets/left.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/leftPushed.png"),(50, 50))],
             "right":[py.transform.scale(py.image.load(f"assets/right.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/rightPushed.png"),(50, 50))],
             "engine":[py.transform.scale(py.image.load(f"assets/engine.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/enginePushed.png"),(50, 50))],
             "brake":[py.transform.scale(py.image.load(f"assets/brake.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/brakePushed.png"),(50, 50))],
                            }
-        self.img = self.imgOrigin;
+
         self.turn = 0;
         self.turning = False;
         self.ko = False;
@@ -38,6 +41,8 @@ class Car:
         self.rightA=False;
         self.engineA=False;
         self.brakeA=False;
+
+        self.indexImg = 0;
     
     def disp(self,x,y):
         
@@ -53,11 +58,11 @@ class Car:
             self.angle += self.turn;
 
             if(self.speed <1):
-                indexImg = round(self.turn/self.maxTurn)*6;
+                self.indexImg = round(self.turn/self.maxTurn)*6;
             else:
-                indexImg = round(round(self.turn/self.maxTurn)*6/(round(self.speed)*(2/9)+(7/9)));
-  
-            self.img = py.transform.rotate(self.imgOrigin[indexImg], degrees(self.angle));
+                self.indexImg = round(round(self.turn/self.maxTurn)*6/(round(self.speed)*(2/9)+(7/9)));
+
+
 
             """
             #collide
@@ -126,7 +131,15 @@ class Car:
             if self.score == len(self.game.roadAdvance.listPts):
                 self.die()
 
-        self.screen.blit(self.img, (x + self.x*2 - self.img.get_width()/2, y + self.y*2 - self.img.get_height()/2));
+        if(self.first):
+            img = py.transform.rotate(self.imgOrigin['green'][self.indexImg], degrees(self.angle));
+        else:
+            img = py.transform.rotate(self.imgOrigin['blue'][self.indexImg], degrees(self.angle));
+
+
+        self.screen.blit(img, (x + self.x*2 - img.get_width()/2, y + self.y*2 - img.get_height()/2));
+
+        self.first = False;
             
 
     def acting(self, inputs):
@@ -176,6 +189,7 @@ class Car:
             self.scoreFinal = self.calculScore();
 
     def showData(self):
+        self.first = True;
         if(self.engineA):
             self.screen.blit(self.imgControl["engine"][1], (90, 80));
         else:

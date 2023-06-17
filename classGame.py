@@ -65,7 +65,6 @@ class Game:
             else:
                 self.numBatch +=1;
                 self.currentListCar = self.listCar[self.numBatch*self.batchTry: (self.numBatch+1)*self.batchTry]
-                print(self.currentListCar)
                 
 
 
@@ -84,8 +83,8 @@ class Game:
         if self.pressed[py.K_d]:
             self.listCar[0].right()
         """
-        self.currentListCar.sort(key=shortingScore, reverse=True);   
-        firstCar = self.currentListCar[0]
+        self.currentListCar.sort(key=shortingScore);   
+        firstCar = self.currentListCar[-1]
         x,y = firstCar.x, firstCar.y;
         x,y = (-2*x+self.screenWidth/2,-2*y+self.screenHeight/2)
         self.screen.blit(self.road, (x,y));
