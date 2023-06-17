@@ -117,7 +117,7 @@ class Car:
                         self.die();
                         break;
                     
-                    self.tabInput.append(lenght*2-1);
+                    self.tabInput.append(lenght);
                 else:
                     self.tabInput.append(1);
             
@@ -146,13 +146,13 @@ class Car:
     def acting(self, inputs):
         act = self.brain.forward(inputs);
         for k in range(2):
-            if(act[k]>0.5 and k ==0):
+            if(act[k]>0.25 and k ==0):
                 self.accelerate();
-            elif(act[k]<-0.5 and k == 0):
+            elif(act[k]<-0.25 and k == 0):
                 self.brake();
-            if(act[k]>0.5 and k==1):               
+            if(act[k]>0.25 and k==1):               
                 self.left();
-            elif(act[k]<0.5 and k==1):
+            elif(act[k]<-0.25 and k==1):
                 self.right();
 
 
@@ -218,15 +218,31 @@ class Car:
     def dispNeuralNetwork(self):
         x = 800;
         y = 10;
-        font = py.font.SysFont(None, 24)
+        font = py.font.SysFont(None, 16)
 
+        #input layer
         for i in range(10):
             if(self.tabInput[i]>0):
-                img = font.render(str(self.tabInput[i]), True, (10,200,10))
+                img = font.render(str(round(self.tabInput[i],2)), True, (10,200,10))
             else:
-                img = font.render(str(self.tabInput[i]), True, (200,10,10))
-            print(x,y+20*i)
-            self.screen.blit(img, (x,y+20*i))
+                img = font.render(str(round(self.tabInput[i],2)), True, (200,10,10))
+            
+            self.screen.blit(img, (x,y+24*i))
+
+            for j in range(8):
+                if(self.brain.weights1[j][i] > 0):
+                    py.draw.line(self.screen, (10,200,10), (x+20,y+24*i+8), (x+115,y+30*j+8), width=round(self.brain.weights1[j][i]*3))
+                else:
+                    py.draw.line(self.screen, (200,10,10), (x+20,y+24*i+8), (x+115,y+30*j+8), width=abs(round(self.brain.weights1[j][i]*3)))
+
+        #hidden layer 1
+        for i in range(8):
+            if(self.brain.bias1[i] >0):
+                py.draw.circle(self.screen, (10,200,10), (x+115,y+30*j+8), self.brain.bias1[i]*5);
+            else:
+                py.draw.circle(self.screen, (200,10,10), (x+115,y+30*j+8), self.brain.bias1[i]*5);
+
+                        
 
 
 

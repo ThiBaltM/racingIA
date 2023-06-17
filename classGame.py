@@ -47,11 +47,11 @@ class Game:
                     nListCar.append(Car(self, self.listCar[k].brain, self.tmpSurface ));
                 for k in range (25, 475):
                     
-                    r1 = random.choices(population=[k for k in range(200)], weights=[250-k for k in range(200)], k=1)
-                    tmp = [k for k in range(200)]
+                    r1 = random.choices(population=[k for k in range(150)], weights=[200-k for k in range(150)], k=1)
+                    tmp = [k for k in range(150)]
                     tmp.remove(r1[0])
-                    tmp2 = [250-k for k in range(200)]
-                    tmp2.remove(250-r1[0])
+                    tmp2 = [200-k for k in range(150)]
+                    tmp2.remove(200-r1[0])
                     r2 = random.choices(population=tmp, weights=tmp2, k=1)
 
                     p1 = self.listCar[r1[0]]
@@ -61,6 +61,7 @@ class Game:
                     nListCar.append(Car(self,NeuralNetwork(10,8,5,2), self.tmpSurface))
                 
                 self.listCar = nListCar;
+                random.shuffle(self.listCar);
                 self.currentListCar = self.listCar[:self.batchTry]
             else:
                 self.numBatch +=1;
