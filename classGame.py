@@ -25,7 +25,7 @@ class Game:
         self.tmpSurface = py.Surface((self.screenWidth, self.screenHeight), py.SRCALPHA)
         self.listCar = [];
         for _ in range (self.pop):
-            self.listCar.append(Car(self, NeuralNetwork(10, 7, 4), self.tmpSurface));
+            self.listCar.append(Car(self, NeuralNetwork(10, 8, 5, 2), self.tmpSurface));
         self.lives = self.batchTry;
         self.gen = 0;
         self.currentListCar = self.listCar[:self.batchTry];
@@ -47,25 +47,25 @@ class Game:
                     nListCar.append(Car(self, self.listCar[k].brain, self.tmpSurface ));
                 for k in range (25, 475):
                     
-                    r1 = random.choices(population=[k for k in range(200)], weights=[250-k for k in range(200)], k=1)
-                    tmp = [k for k in range(200)]
+                    r1 = random.choices(population=[k for k in range(150)], weights=[200-k for k in range(150)], k=1)
+                    tmp = [k for k in range(150)]
                     tmp.remove(r1[0])
-                    tmp2 = [250-k for k in range(200)]
-                    tmp2.remove(250-r1[0])
+                    tmp2 = [200-k for k in range(150)]
+                    tmp2.remove(200-r1[0])
                     r2 = random.choices(population=tmp, weights=tmp2, k=1)
 
                     p1 = self.listCar[r1[0]]
                     p2 = self.listCar[r2[0]]
                     nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export()), self.tmpSurface));
                 for k in range(475,500):
-                    nListCar.append(Car(self,NeuralNetwork(10,7,4), self.tmpSurface))
+                    nListCar.append(Car(self,NeuralNetwork(10,8,5,2), self.tmpSurface))
                 
                 self.listCar = nListCar;
+                random.shuffle(self.listCar);
                 self.currentListCar = self.listCar[:self.batchTry]
             else:
                 self.numBatch +=1;
                 self.currentListCar = self.listCar[self.numBatch*self.batchTry: (self.numBatch+1)*self.batchTry]
-                print(self.currentListCar)
                 
 
 
@@ -84,8 +84,8 @@ class Game:
         if self.pressed[py.K_d]:
             self.listCar[0].right()
         """
-        self.currentListCar.sort(key=shortingScore, reverse=True);   
-        firstCar = self.currentListCar[0]
+        self.currentListCar.sort(key=shortingScore);   
+        firstCar = self.currentListCar[-1]
         x,y = firstCar.x, firstCar.y;
         x,y = (-2*x+self.screenWidth/2,-2*y+self.screenHeight/2)
         self.screen.blit(self.road, (x,y));
