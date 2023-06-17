@@ -14,8 +14,8 @@ class NeuralNetwork:
             self.weights2 = [[random.random()*random.choice([1,-1]) for _ in range(hidden1_size)] for _ in range(hidden2_size)]
             self.weights3 = [[random.random()*random.choice([1,-1]) for _ in range(hidden2_size)] for _ in range(output_size)]
             self.bias1 = [(random.random()*random.choice([1,-1])) for _ in range(hidden1_size)]
-            self.bias2 = [(random.random()*random.choice([1,-1])) for _ in range(hidden2_size)]
-            self.bias3 = [(random.random()*random.choice([1,-1])) for _ in range(output_size)]
+            self.bias2 = [(random.random()*random.choice([0.5,-0.5])) for _ in range(hidden2_size)]
+            self.bias3 = [(random.random()*random.choice([0.1,-0.1])) for _ in range(output_size)]
         elif data2==None:
             parent1 = json.loads(data)
 
