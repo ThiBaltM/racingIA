@@ -6,6 +6,7 @@ class Car:
         self.game = game;
         self.screen = game.screen;
         self.angle = pi;
+        self.outputs = [0,0];
         self.maxTurn = pi/120;
         self.speed = 0;
         self.maxSpeed = 10;
@@ -145,14 +146,15 @@ class Car:
 
     def acting(self, inputs):
         act = self.brain.forward(inputs);
+        self.outputs = act;
         for k in range(2):
-            if(act[k]>0.25 and k ==0):
+            if(act[k]>0.65 and k ==0):
                 self.accelerate();
-            elif(act[k]<-0.25 and k == 0):
+            elif(act[k]<0.60 and k == 0):
                 self.brake();
-            if(act[k]>0.25 and k==1):               
+            if(act[k]>0.65 and k==1):               
                 self.left();
-            elif(act[k]<-0.25 and k==1):
+            elif(act[k]<0.6 and k==1):
                 self.right();
 
 
@@ -231,16 +233,50 @@ class Car:
 
             for j in range(8):
                 if(self.brain.weights1[j][i] > 0):
-                    py.draw.line(self.screen, (10,200,10), (x+20,y+24*i+8), (x+115,y+30*j+8), width=round(self.brain.weights1[j][i]*3))
+                    py.draw.line(self.screen, (10,200,10), (x+20,y+24*i+12), (x+115,y+30*j+15), width=round(self.brain.weights1[j][i]*3))
                 else:
-                    py.draw.line(self.screen, (200,10,10), (x+20,y+24*i+8), (x+115,y+30*j+8), width=abs(round(self.brain.weights1[j][i]*3)))
+                    py.draw.line(self.screen, (200,10,10), (x+20,y+24*i+12), (x+115,y+30*j+15), width=abs(round(self.brain.weights1[j][i]*3)))
 
         #hidden layer 1
         for i in range(8):
             if(self.brain.bias1[i] >0):
-                py.draw.circle(self.screen, (10,200,10), (x+115,y+30*i+8), self.brain.bias1[i]*10);
+                py.draw.circle(self.screen, (10,200,10), (x+115,y+30*i+15), self.brain.bias1[i]*10);
             else:
-                py.draw.circle(self.screen, (200,10,10), (x+115,y+30*i+8), abs(self.brain.bias1[i]*10));
+                py.draw.circle(self.screen, (200,10,10), (x+115,y+30*i+15), abs(self.brain.bias1[i]*10));
+            
+            for j in range(5):
+                if(self.brain.weights2[j][i] > 0):
+                    py.draw.line(self.screen, (10,200,10), (x+115,y+30*i+15), (x+215,y+48*j+24), width=round(self.brain.weights2[j][i]*3))
+                else:
+                    py.draw.line(self.screen, (200,10,10), (x+115,y+30*i+15), (x+215,y+48*j+24), width=abs(round(self.brain.weights2[j][i]*3)))
+
+        #hidden layer 2
+        for i in range(5):
+            if(self.brain.bias2[i] >0):
+                py.draw.circle(self.screen, (10,200,10), (x+215,y+48*i+24), self.brain.bias2[i]*10);
+            else:
+                py.draw.circle(self.screen, (200,10,10), (x+215,y+48*i+24), abs(self.brain.bias2[i]*10));
+            
+            for j in range(2):
+                if(self.brain.weights3[j][i] > 0):
+                    py.draw.line(self.screen, (10,200,10), (x+215,y+48*i+24), (x+315,y+120*j+60), width=round(self.brain.weights3[j][i]*3))
+                else:
+                    py.draw.line(self.screen, (200,10,10), (x+215,y+48*i+24), (x+315,y+120*j+60), width=abs(round(self.brain.weights3[j][i]*3)))
+
+        #output layer
+        for i in range(2):
+            if(self.brain.bias3[i]>0):
+                py.draw.circle(self.screen, (10,200,10), (x+315,y+120*i+60), self.brain.bias2[i]*10)
+            else:
+                py.draw.circle(self.screen, (200,10,10), (x+315,y+120*i+60), abs(self.brain.bias2[i]*10))
+            
+            if(self.outputs[i]>0):
+                img = font.render(str(round(self.tabInput[i],2)), True, (10,200,10))
+            else:
+                img = font.render(str(round(self.tabInput[i],2)), True, (200,10,10))
+            
+            self.screen.blit(img, (x+330,y+120*i+56))
+
 
                         
 
