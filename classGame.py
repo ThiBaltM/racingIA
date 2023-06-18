@@ -31,11 +31,14 @@ class Game:
         self.lives = self.batchTry;
         self.gen = 0;
         self.currentListCar = self.listCar[:self.batchTry];
+        self.clock = py.time.Clock();
+        self.fps = 30;
 
 
           
     def update(self):
         """Cette fonction met a jour les evenement divers pouvant avoir lieux"""
+        self.clock.tick(self.fps);
         py.draw.rect(self.screen, "white", py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
         if(self.lives<=0):
             self.lives = self.batchTry;
@@ -102,12 +105,15 @@ class Game:
                 car.disp(0,0);
         
         #afficher génération
-        font = py.font.SysFont(None, 24)
+        font = py.font.SysFont(None, 20)
         img = font.render('gen : '+str(self.gen), True, (0,0,0))
-        self.screen.blit(img, (20, 10))
+        self.screen.blit(img, (100, 10))
         img = font.render('remain : '+str(self.lives), True, (0,0,0))
-        self.screen.blit(img, (120, 10))
+        self.screen.blit(img, (260, 10))
         img = font.render('batch : '+str(self.numBatch), True, (0,0,0))
-        self.screen.blit(img, (240, 10))
+        self.screen.blit(img, (180, 10))
+
+        img = font.render('FPS : '+str(round(self.clock.get_fps())), True, (0,0,0))
+        self.screen.blit(img, (5, 10))
         
         self.compteur += 1;
