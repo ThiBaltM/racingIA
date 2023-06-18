@@ -15,10 +15,12 @@ class Car:
         self.y = 660;
         self.tmpSurface = tmpSurface;
         self.first = False;
-        self.imgOrigin = {'blue':{}, 'green':{}};
+        self.imgOrigin = [{'blue':{}, 'green':{}},{'blue':{}, 'green':{}}];
         for i in [0,1,2,3,4,5,6,-1,-2,-3,-4,-5,-6]:
-            self.imgOrigin['blue'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(100, 100))
-            self.imgOrigin['green'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}First.png"),(100, 100))
+            self.imgOrigin[0]['blue'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(50, 50))
+            self.imgOrigin[0]['green'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}First.png"),(50, 50))
+            self.imgOrigin[1]['blue'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(100, 100))
+            self.imgOrigin[1]['green'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}First.png"),(100, 100))
 
         self.imgControl = {
             "left":[py.transform.scale(py.image.load(f"assets/left.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/leftPushed.png"),(50, 50))],
@@ -134,12 +136,15 @@ class Car:
                 self.die()
 
         if(self.first):
-            img = py.transform.rotate(self.imgOrigin['green'][self.indexImg], degrees(self.angle));
+            img = py.transform.rotate(self.imgOrigin[int(self.game.actionCamera)]['green'][self.indexImg], degrees(self.angle));
         else:
-            img = py.transform.rotate(self.imgOrigin['blue'][self.indexImg], degrees(self.angle));
+            img = py.transform.rotate(self.imgOrigin[int(self.game.actionCamera)]['blue'][self.indexImg], degrees(self.angle));
 
+        if(self.game.actionCamera):
+            self.screen.blit(img, (x + self.x*2 - img.get_width()/2, y + self.y*2 - img.get_height()/2));
+        else:
+            self.screen.blit(img, (self.x-img.get_width()/2, self.y- img.get_height()/2));
 
-        self.screen.blit(img, (x + self.x*2 - img.get_width()/2, y + self.y*2 - img.get_height()/2));
 
         self.first = False;
             
@@ -148,9 +153,9 @@ class Car:
         act = self.brain.forward(inputs);
         self.outputs = act;
         for k in range(2):
-            if(act[k]>0.52 and k ==0):
+            if(act[k]>0.62 and k ==0):
                 self.accelerate();
-            elif(act[k]<0.48 and k == 0):
+            elif(act[k]<0.58 and k == 0):
                 self.brake();
             if(act[k]>0.52 and k==1):               
                 self.left();

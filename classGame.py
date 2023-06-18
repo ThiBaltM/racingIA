@@ -17,7 +17,9 @@ class Game:
         self.pop = 500;
         self.batchTry = 25;
         self.numBatch = 0;
-        self.road = py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth*2, self.screenHeight*2));
+        self.actionCamera = True;
+
+        self.road = [py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight)),py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth*2, self.screenHeight*2))];
         self.trackBorder = json.load(open("roadCollides.json"))
         self.x = 0;
         self.y=0;
@@ -86,14 +88,18 @@ class Game:
         """
         self.currentListCar.sort(key=shortingScore);   
         firstCar = self.currentListCar[-1]
-        x,y = firstCar.x, firstCar.y;
-        x,y = (-2*x+self.screenWidth/2,-2*y+self.screenHeight/2)
-        self.screen.blit(self.road, (x,y));
-
-
         firstCar.showData();
-        for car in self.currentListCar:
-            car.disp(x,y);
+
+        if(self.actionCamera):
+            x,y = firstCar.x, firstCar.y;
+            x,y = (-2*x+self.screenWidth/2,-2*y+self.screenHeight/2)
+            self.screen.blit(self.road[int(self.actionCamera)], (x,y));
+            for car in self.currentListCar:
+                car.disp(x,y);
+        else:
+            self.screen.blit(self.road[int(self.actionCamera)], (0,0));
+            for car in self.currentListCar:
+                car.disp(0,0);
         
         #afficher génération
         font = py.font.SysFont(None, 24)
