@@ -148,9 +148,9 @@ class Car:
         act = self.brain.forward(inputs);
         self.outputs = act;
         for k in range(2):
-            if(act[k]>0.52 and k ==0):
+            if(act[k]>0.62 and k ==0):
                 self.accelerate();
-            elif(act[k]<0.48 and k == 0):
+            elif(act[k]<0.58 and k == 0):
                 self.brake();
             if(act[k]>0.52 and k==1):               
                 self.left();
@@ -218,7 +218,7 @@ class Car:
     
 
     def dispNeuralNetwork(self):
-        x = 800;
+        x = 900;
         y = 10;
         font = py.font.SysFont(None, 16)
 

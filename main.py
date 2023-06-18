@@ -7,15 +7,13 @@ largeurEcran, hauteurEcran = (1280, 720)
 #paramétrage de l'affichage
 screen = py.display.set_mode((largeurEcran,hauteurEcran))
 
-clock = py.time.Clock()
-FPS = 30
 
 isRunning = True
 
 game = Game(screen)
 
 while isRunning:
-    clock.tick(FPS)
+
     #gestion des touches
     for event in py.event.get():
         if event.type == py.KEYDOWN:

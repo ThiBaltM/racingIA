@@ -57,7 +57,7 @@ class NeuralNetwork:
                     if(random.random()<noMutateRate):
                         self.weights2[k].append(random.uniform(w1,w2))
                     else:
-                        print("mutation")
+
                         self.weights2[k].append(random.random())
 
             self.weights3 = []
@@ -69,7 +69,7 @@ class NeuralNetwork:
                     if(random.random()<noMutateRate):
                         self.weights3[k].append(random.uniform(w1,w2))
                     else:
-                        print("mutation")
+
                         self.weights3[k].append(random.random())
 
             self.bias1 = []
@@ -79,7 +79,6 @@ class NeuralNetwork:
                 if(random.random()<noMutateRate):
                     self.bias1.append(random.uniform(b1,b2))
                 else:
-                    print("mutation")
                     self.bias1.append(random.random())
 
             self.bias2 = []
@@ -89,7 +88,6 @@ class NeuralNetwork:
                 if(random.random()<noMutateRate):
                     self.bias2.append(random.uniform(b1,b2))
                 else:
-                    print("mutation")
                     self.bias2.append(random.random())
 
             self.bias3 = []
@@ -99,7 +97,7 @@ class NeuralNetwork:
                 if(random.random()<noMutateRate):
                     self.bias3.append(random.uniform(b1,b2))
                 else:
-                    print("mutation")
+
                     self.bias3.append(random.random())
 
     def sigmoid(self, x):
@@ -109,7 +107,7 @@ class NeuralNetwork:
         v = []
         for val in tab:
             v.append(math.floor(val*1000)/1000)
-        print(v)
+
 
     def calcVal(self, tabInput, tabW, bias, outputLength):
         res = []
@@ -118,7 +116,7 @@ class NeuralNetwork:
             for i in range(len(tabInput)-1):
                 v += tabInput[i] * tabW[k][i]
             res.append(v)
-        print(res)
+
         return res
 
     def forward(self, X):
