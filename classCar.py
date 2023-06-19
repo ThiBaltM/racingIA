@@ -5,14 +5,14 @@ class Car:
     def __init__(self, game, brain, tmpSurface):
         self.game = game;
         self.screen = game.screen;
-        self.angle = pi;
+        self.angle = pi/0.95;
         self.outputs = [0,0];
         self.maxTurn = pi/120;
         self.speed = 0;
-        self.maxSpeed = 10;
+        self.maxSpeed = 4;
         self.minSpeed = 1;
-        self.x = 90;
-        self.y = 660;
+        self.x = 220;
+        self.y = 620;
         self.tmpSurface = tmpSurface;
         self.first = False;
         self.imgOrigin = [{'blue':{}, 'green':{}},{'blue':{}, 'green':{}}];
@@ -103,7 +103,6 @@ class Car:
                 for k in range(0, self.lenRay, 4): #4 correspond to the unit of collisionMaker
                    
                     targetX, targetY = (xStart - k * cos(angle), yStart + k * sin(angle))
-                    
                     if self.game.trackBorder[round(targetY/4)][round(targetX/4)]:
                         break;
                 

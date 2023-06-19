@@ -26,7 +26,7 @@ while isRunning:
         elif event.type == py.MOUSEBUTTONDOWN:
             game.pressed[event.button] = True
             #initializing road
-            #game.roadAdvance.draw()
+            game.roadAdvance.draw()
         
         elif event.type == py.MOUSEBUTTONUP:
             game.pressed[event.button] = False
@@ -38,6 +38,7 @@ while isRunning:
         py.draw.circle(screen,'red',a,5,5);
     print(game.roadAdvance.list)
     """
+    
     
     py.display.flip()
 

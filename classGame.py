@@ -17,7 +17,7 @@ class Game:
         self.pop = 500;
         self.batchTry = 25;
         self.numBatch = 0;
-        self.actionCamera = True;
+        self.actionCamera = False;
 
         self.road = [py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight)),py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth*2, self.screenHeight*2))];
         self.trackBorder = json.load(open("roadCollides.json"))
