@@ -27,7 +27,7 @@ class Game:
         self.tmpSurface = py.Surface((self.screenWidth, self.screenHeight), py.SRCALPHA)
         self.listCar = [];
         for _ in range (self.pop):
-            self.listCar.append(Car(self, NeuralNetwork(10, 8, 5, 2), self.tmpSurface));
+            self.listCar.append(Car(self, NeuralNetwork(11, 9, 5, 2), self.tmpSurface));
         self.lives = self.batchTry;
         self.gen = 0;
         self.currentListCar = self.listCar[:self.batchTry];
@@ -63,7 +63,7 @@ class Game:
                     p2 = self.listCar[r2[0]]
                     nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export()), self.tmpSurface));
                 for k in range(475,500):
-                    nListCar.append(Car(self,NeuralNetwork(10,8,5,2), self.tmpSurface))
+                    nListCar.append(Car(self,NeuralNetwork(11,9,5,2), self.tmpSurface))
                 
                 self.listCar = nListCar;
                 random.shuffle(self.listCar);
@@ -96,14 +96,16 @@ class Game:
             x,y = firstCar.x, firstCar.y;
             x,y = (-2*x+self.screenWidth/2,-2*y+self.screenHeight/2)
             self.screen.blit(self.road[int(self.actionCamera)], (x,y));
+            firstCar.showData();
             for car in self.currentListCar:
                 car.disp(x,y);
         else:
             self.screen.blit(self.road[int(self.actionCamera)], (0,0));
+            firstCar.showData();
             for car in self.currentListCar:
                 car.disp(0,0);
-                
-        firstCar.showData();
+
+        
         
         #afficher génération
         font = py.font.SysFont(None, 20)
