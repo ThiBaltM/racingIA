@@ -91,7 +91,6 @@ class Game:
         """
         self.currentListCar.sort(key=shortingScore);   
         firstCar = self.currentListCar[-1]
-        firstCar.showData();
 
         if(self.actionCamera):
             x,y = firstCar.x, firstCar.y;
@@ -103,6 +102,8 @@ class Game:
             self.screen.blit(self.road[int(self.actionCamera)], (0,0));
             for car in self.currentListCar:
                 car.disp(0,0);
+                
+        firstCar.showData();
         
         #afficher génération
         font = py.font.SysFont(None, 20)

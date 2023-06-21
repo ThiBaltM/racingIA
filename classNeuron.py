@@ -4,7 +4,6 @@ import json
 
 class NeuralNetwork:
     def __init__(self, input_size=None, hidden1_size=None, hidden2_size=None, output_size=None, data=None, data2=None):
-        noMutateRate = 0.990
         if(data2==None and data==None):
             self.input_size = input_size
             self.hidden1_size = hidden1_size
@@ -30,6 +29,7 @@ class NeuralNetwork:
             self.bias2 = parent1["bias2"]
             self.bias3 = parent1["bias3"]
         else:
+            noMutateRate = 0.980
             parent1 = json.loads(data)
             parent2 = json.loads(data2)
             self.input_size = parent1["input_size"]

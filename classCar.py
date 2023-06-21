@@ -227,6 +227,7 @@ class Car:
         font = py.font.SysFont(None, 16)
 
         #input layer
+        print(len(self.tabInput))
         for i in range(10):
             if(self.tabInput[i]>0):
                 img = font.render(str(round(self.tabInput[i],2)), True, (10,200,10))
