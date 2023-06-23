@@ -25,14 +25,24 @@ class Game:
         self.x = 0;
         self.y=0;
         self.roadAdvance = Road(self);
-        file = open("genSave.json", 'r')
-        print(data)
-        data = json.dumps(file)
         self.listCar = [];
-        for _ in range (self.pop):
-            self.listCar.append(Car(self, NeuralNetwork(11, 9, 5, 2)));
+
+        try:
+            file = open("genSave.json", 'r')
+            data = json.load(file)
+            self.gen = data["gen"]
+            for k in range (self.pop):
+                self.listCar.append(Car(self, NeuralNetwork(data = data["listCar"][k])));
+            print("fichier sauvegarde lu")
+
+        except IOError:
+            print("pas de sauvegarde trouvée, lancement d'une nouvelle simulation")
+            self.listCar = []
+            for _ in range (self.pop):
+                self.listCar.append(Car(self, NeuralNetwork(11, 9, 5, 2)));
+            self.gen = 0;
+
         self.lives = self.batchTry;
-        self.gen = 0;
         self.currentListCar = self.listCar[:self.batchTry];
         self.clock = py.time.Clock();
         self.fps = 30;
@@ -74,13 +84,16 @@ class Game:
                 self.listCar = nListCar;
 
                 #sauvegarde de la génération
-                with open('genSave.json', 'w') as outfile:
-                    outfile.write(json.dumps(
-                        {
-                            "listCar":[car.brain.export() for car in self.listCar],
-                            "gen":self.gen
-                        }
-                    ))
+                if(self.gen%5==0):
+                    print("sauvegarde...")
+                    with open('genSave.json', 'w') as outfile:
+                        outfile.write(json.dumps(
+                            {
+                                "listCar":[car.brain.export() for car in self.listCar],
+                                "gen":self.gen
+                            }
+                        ))
+                    print("sauvegarde terminée")
 
                 random.shuffle(self.listCar);
                 self.currentListCar = self.listCar[:self.batchTry]
