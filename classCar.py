@@ -2,7 +2,7 @@ import pygame as py
 from math import pi, atan2, degrees, sqrt, cos, sin;
 
 class Car:
-    def __init__(self, game, brain, tmpSurface):
+    def __init__(self, game, brain):
         self.game = game;
         self.screen = game.screen;
         self.angle = pi/0.95;
@@ -13,7 +13,6 @@ class Car:
         self.minSpeed = 1;
         self.x = 220;
         self.y = 620;
-        self.tmpSurface = tmpSurface;
         self.first = False;
         self.imgOrigin = [{'blue':{}, 'green':{}},{'blue':{}, 'green':{}}];
         for i in [0,1,2,3,4,5,6,-1,-2,-3,-4,-5,-6]:
@@ -98,7 +97,6 @@ class Car:
             angleUnit = pi*5/48
 
             for angle in [self.angle+4*angleUnit, self.angle+3*angleUnit, self.angle+2*angleUnit, self.angle+angleUnit, self.angle, self.angle-angleUnit, self.angle - 2*angleUnit, self.angle - 3*angleUnit, self.angle-4*angleUnit]:
-                self.tmpSurface.fill((0,0,0,0));
                 for k in range(0, self.lenRay, 4): #4 correspond to the unit of collisionMaker
                    
                     targetX, targetY = (xStart - k * cos(angle), yStart + k * sin(angle))
@@ -146,6 +144,7 @@ class Car:
 
 
         self.first = False;
+        
             
 
     def acting(self, inputs):
@@ -153,13 +152,13 @@ class Car:
         self.outputs = act;
 
         for k in range(2):
-            if(act[k]>0.52 and k ==0):
+            if(act[k]>0.70 and k ==0):
                 self.accelerate();
-            elif(act[k]<0.48 and k == 0):
+            elif(act[k]<0.68 and k == 0):
                 self.brake();
-            if(act[k]>0.52 and k==1):               
+            if(act[k]>0.51 and k==1):               
                 self.left();
-            elif(act[k]<0.48 and k==1):
+            elif(act[k]<0.49 and k==1):
                 self.right();
 
 

@@ -5,6 +5,7 @@ from classNeuron import NeuralNetwork
 from functionShortCar import shortingScore;
 import random
 import json
+
 py.font.init()
 
 class Game:
@@ -24,10 +25,12 @@ class Game:
         self.x = 0;
         self.y=0;
         self.roadAdvance = Road(self);
-        self.tmpSurface = py.Surface((self.screenWidth, self.screenHeight), py.SRCALPHA)
+        file = open("genSave.json", 'r')
+        print(data)
+        data = json.dumps(file)
         self.listCar = [];
         for _ in range (self.pop):
-            self.listCar.append(Car(self, NeuralNetwork(11, 9, 5, 2), self.tmpSurface));
+            self.listCar.append(Car(self, NeuralNetwork(11, 9, 5, 2)));
         self.lives = self.batchTry;
         self.gen = 0;
         self.currentListCar = self.listCar[:self.batchTry];
@@ -43,13 +46,16 @@ class Game:
         if(self.lives<=0):
             self.lives = self.batchTry;
             if((self.numBatch+1)*self.batchTry>=self.pop):
+                
+
+
                 self.gen +=1;
                 self.numBatch = 0;
                 self.listCar.sort(key=lambda x:x.scoreFinal, reverse=True);
 
                 nListCar =[];
                 for k in range (25):
-                    nListCar.append(Car(self, self.listCar[k].brain, self.tmpSurface ));
+                    nListCar.append(Car(self, self.listCar[k].brain));
                 for k in range (25, 475):
                     
                     r1 = random.choices(population=[k for k in range(150)], weights=[200-k for k in range(150)], k=1)
@@ -61,11 +67,21 @@ class Game:
 
                     p1 = self.listCar[r1[0]]
                     p2 = self.listCar[r2[0]]
-                    nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export()), self.tmpSurface));
+                    nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export())));
                 for k in range(475,500):
-                    nListCar.append(Car(self,NeuralNetwork(11,9,5,2), self.tmpSurface))
+                    nListCar.append(Car(self,NeuralNetwork(11,9,5,2)))
                 
                 self.listCar = nListCar;
+
+                #sauvegarde de la génération
+                with open('genSave.json', 'w') as outfile:
+                    outfile.write(json.dumps(
+                        {
+                            "listCar":[car.brain.export() for car in self.listCar],
+                            "gen":self.gen
+                        }
+                    ))
+
                 random.shuffle(self.listCar);
                 self.currentListCar = self.listCar[:self.batchTry]
             else:
