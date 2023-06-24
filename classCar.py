@@ -223,7 +223,7 @@ class Car:
 
     def dispNeuralNetwork(self):
         x = 800;
-        y = 10;
+        y = 20;
         font = py.font.SysFont(None, 16)
 
         ecart = 20
@@ -237,7 +237,7 @@ class Car:
         s = py.Surface((360,height))
         s.set_alpha(180)
         s.fill((0,0,0))
-        self.screen.blit(s,(x-5,y))
+        self.screen.blit(s,(x-5,y-ecart/2))
 
         #input layer
         for i in range(self.game.layer[0]):
@@ -246,7 +246,7 @@ class Car:
             else:
                 img = font.render(str(round(self.tabInput[i],2)), True, (200,10,10))
             
-            self.screen.blit(img, (x,y+ecart*i+marge1))
+            self.screen.blit(img, (x,y+ecart*i+marge1-3))
 
             for j in range(self.game.layer[1]):
                 if(self.brain.weights1[j][i] > 0):
@@ -292,7 +292,7 @@ class Car:
             else:
                 img = font.render(str(round(self.outputs[i],2)), True, (200,10,10))
             
-            self.screen.blit(img, (x+330,y+120*i+56))
+            self.screen.blit(img, (x+330,y+ecart*i+marge4-3))
 
 
                         
