@@ -85,8 +85,8 @@ class Game:
                 self.listCar = nListCar;
 
                 #sauvegarde de la génération
-                if(self.gen%5==0):
-                    print("sauvegarde...")
+                if(self.gen%2==0):
+                    print(f"sauvegarde gen {self.gen}...")
                     with open('genSave.json', 'w') as outfile:
                         outfile.write(json.dumps(
                             {
