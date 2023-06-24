@@ -68,11 +68,11 @@ class Game:
                     nListCar.append(Car(self, self.listCar[k].brain));
                 for k in range (25, 475):
                     
-                    r1 = random.choices(population=[k for k in range(150)], weights=[200-k for k in range(150)], k=1)
-                    tmp = [k for k in range(150)]
+                    r1 = random.choices(population=[i for i in range(150)], weights=[(151-i)*(151-i) for i in range(150)], k=1)
+                    tmp = [i for i in range(150)]
                     tmp.remove(r1[0])
-                    tmp2 = [200-k for k in range(150)]
-                    tmp2.remove(200-r1[0])
+                    tmp2 = [(151-i)*(151-i) for i in range(150)]
+                    tmp2.remove((151-r1[0])*(151-r1[0]))
                     r2 = random.choices(population=tmp, weights=tmp2, k=1)
 
                     p1 = self.listCar[r1[0]]
