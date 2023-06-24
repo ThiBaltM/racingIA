@@ -26,6 +26,7 @@ class Game:
         self.y=0;
         self.roadAdvance = Road(self);
         self.listCar = [];
+        self.layer = [11,13,8,2]
 
         try:
             file = open("genSave.json", 'r')
@@ -39,7 +40,7 @@ class Game:
             print("pas de sauvegarde trouvée, lancement d'une nouvelle simulation")
             self.listCar = []
             for _ in range (self.pop):
-                self.listCar.append(Car(self, NeuralNetwork(11, 9, 5, 2)));
+                self.listCar.append(Car(self, NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3])));
             self.gen = 0;
 
         self.lives = self.batchTry;
@@ -66,7 +67,7 @@ class Game:
                 nListCar =[];
                 for k in range (25):
                     nListCar.append(Car(self, self.listCar[k].brain));
-                for k in range (25, 475):
+                for k in range (25, 450):
                     
                     r1 = random.choices(population=[i for i in range(150)], weights=[(151-i)*(151-i) for i in range(150)], k=1)
                     tmp = [i for i in range(150)]
@@ -78,8 +79,8 @@ class Game:
                     p1 = self.listCar[r1[0]]
                     p2 = self.listCar[r2[0]]
                     nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export())));
-                for k in range(475,500):
-                    nListCar.append(Car(self,NeuralNetwork(11,9,5,2)))
+                for k in range(450,500):
+                    nListCar.append(Car(self,NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3])))
                 
                 self.listCar = nListCar;
 
