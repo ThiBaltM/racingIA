@@ -29,7 +29,7 @@ class NeuralNetwork:
             self.bias2 = parent1["bias2"]
             self.bias3 = parent1["bias3"]
         else:
-            noMutateRate = 0.980
+            noMutateRate = 0.95
             parent1 = json.loads(data)
             parent2 = json.loads(data2)
             self.input_size = parent1["input_size"]
