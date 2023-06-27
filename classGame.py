@@ -26,7 +26,7 @@ class Game:
         self.y=0;
         self.roadAdvance = Road(self);
         self.listCar = [];
-        self.layer = [11,14,18,2]
+        self.layer = [11,14,18,15,2]
 
         try:
             file = open("genSave.json", 'r')
@@ -40,7 +40,7 @@ class Game:
             print("pas de sauvegarde trouvée, lancement d'une nouvelle simulation")
             self.listCar = []
             for _ in range (self.pop):
-                self.listCar.append(Car(self, NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3])));
+                self.listCar.append(Car(self, NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3], self.layer[4])));
             self.gen = 0;
 
         self.lives = self.batchTry;

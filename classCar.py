@@ -233,6 +233,7 @@ class Car:
         marge2 = (height - self.game.layer[1]*ecart)/2
         marge3 = (height - self.game.layer[2]*ecart)/2
         marge4 = (height - self.game.layer[3]*ecart)/2
+        marge5 = (height - self.game.layer[4]*ecart)/2
 
         s = py.Surface((360,height))
         s.set_alpha(180)
@@ -280,19 +281,33 @@ class Car:
                 else:
                     py.draw.line(self.screen, (200,10,10), (x+215,y+ecart*i+marge3), (x+315,y+ecart*j+marge4), width=abs(round(self.brain.weights3[j][i]*3)))
 
-        #output layer
+
+        #hidden layer 3
         for i in range(self.game.layer[3]):
-            if(self.brain.bias3[i]>0):
-                py.draw.circle(self.screen, (10,200,10), (x+315,y+ecart*i+marge4), self.brain.bias2[i]*10)
+            if(self.brain.bias3[i] >0):
+                py.draw.circle(self.screen, (10,200,10), (x+215,y+ecart*i+marge4), self.brain.bias3[i]*10);
             else:
-                py.draw.circle(self.screen, (200,10,10), (x+315,y+ecart*i+marge4), abs(self.brain.bias2[i]*10))
+                py.draw.circle(self.screen, (200,10,10), (x+215,y+ecart*i+marge4), abs(self.brain.bias3[i]*10));
+            
+            for j in range(self.game.layer[4]):
+                if(self.brain.weights4[j][i] > 0):
+                    py.draw.line(self.screen, (10,200,10), (x+215,y+ecart*i+marge4), (x+315,y+ecart*j+marge5), width=round(self.brain.weights4[j][i]*3))
+                else:
+                    py.draw.line(self.screen, (200,10,10), (x+215,y+ecart*i+marge4), (x+315,y+ecart*j+marge5), width=abs(round(self.brain.weights4[j][i]*3)))
+
+        #output layer
+        for i in range(self.game.layer[4]):
+            if(self.brain.bias4[i]>0):
+                py.draw.circle(self.screen, (10,200,10), (x+315,y+ecart*i+marge5), self.brain.bias3[i]*10)
+            else:
+                py.draw.circle(self.screen, (200,10,10), (x+315,y+ecart*i+marge5), abs(self.brain.bias3[i]*10))
             
             if(self.outputs[i]>0):
                 img = font.render(str(round(self.outputs[i],2)), True, (10,200,10))
             else:
                 img = font.render(str(round(self.outputs[i],2)), True, (200,10,10))
             
-            self.screen.blit(img, (x+330,y+ecart*i+marge4-3))
+            self.screen.blit(img, (x+330,y+ecart*i+marge5-3))
 
 
                         
