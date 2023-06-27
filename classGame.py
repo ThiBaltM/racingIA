@@ -26,7 +26,7 @@ class Game:
         self.y=0;
         self.roadAdvance = Road(self);
         self.listCar = [];
-        self.layer = [11,14,18,2]
+        self.layer = [9,14,18,2]
 
         try:
             file = open("genSave.json", 'r')
