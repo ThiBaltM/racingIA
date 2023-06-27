@@ -1,5 +1,6 @@
 import pygame as py
 from classCar import Car
+from classCarPlayer import CarPlayer
 from classRoad import Road
 from classNeuron import NeuralNetwork
 from functionShortCar import shortingScore;
@@ -18,7 +19,7 @@ class Game:
         self.pop = 500;
         self.batchTry = 25;
         self.numBatch = 0;
-        self.actionCamera = True;
+        self.actionCamera = False;
 
         self.road = [py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight)),py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth*2, self.screenHeight*2))];
         self.trackBorder = json.load(open("roadCollides.json"))
@@ -26,7 +27,8 @@ class Game:
         self.y=0;
         self.roadAdvance = Road(self);
         self.listCar = [];
-        self.layer = [11,14,18,15,2]
+        self.layer = [9,11,8,4,2]
+        self.car = CarPlayer(self);
 
         try:
             file = open("genSave.json", 'r')
@@ -35,6 +37,8 @@ class Game:
             for k in range (self.pop):
                 self.listCar.append(Car(self, NeuralNetwork(data = data["listCar"][k])));
             print("fichier sauvegarde lu")
+            
+
 
         except IOError:
             print("pas de sauvegarde trouvée, lancement d'une nouvelle simulation")
@@ -46,11 +50,12 @@ class Game:
         self.lives = self.batchTry;
         self.currentListCar = self.listCar[:self.batchTry];
         self.clock = py.time.Clock();
-        self.fps = 30;
+        self.fps = 24;
 
 
           
     def update(self):
+        self.car.disp(0,0);
         """Cette fonction met a jour les evenement divers pouvant avoir lieux"""
         self.clock.tick(self.fps);
         py.draw.rect(self.screen, (22,73,0), py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
@@ -80,7 +85,7 @@ class Game:
                     p2 = self.listCar[r2[0]]
                     nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export())));
                 for k in range(450,500):
-                    nListCar.append(Car(self,NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3])))
+                    nListCar.append(Car(self,NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3], self.layer[4])))
                 
                 self.listCar = nListCar;
 
@@ -108,17 +113,15 @@ class Game:
         #textScoreSurface = myfont.render(f"your score :{self.car.calculScore()}", False, (0,0,0))
         #self.screen.blit(textScoreSurface,(10,10))
 
-        """
         #gestion joueur
         if self.pressed[py.K_z]:
-            self.listCar[0].accelerate()
+            self.car.accelerate()
         if self.pressed[py.K_s]:
-            self.listCar[0].brake()
+            self.car.brake()
         if self.pressed[py.K_q]:
-            self.listCar[0].left()
+            self.car.left()
         if self.pressed[py.K_d]:
-            self.listCar[0].right()
-        """
+            self.car.right()
         self.currentListCar.sort(key=shortingScore);   
         firstCar = self.currentListCar[-1]
 
@@ -134,6 +137,7 @@ class Game:
             firstCar.showData();
             for car in self.currentListCar:
                 car.disp(0,0);
+            
 
         
         

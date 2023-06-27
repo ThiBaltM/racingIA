@@ -17,6 +17,17 @@ game = Game(screen)
 while isRunning:
     #gestion des touches
     for event in py.event.get():
+        """
+        k = py.key.get_pressed()
+        if k[py.K_UP]:
+            game.car.pressed[py.K_UP]=True;
+        if k[py.K_DOWN]:
+            game.car.brake();
+        if k[py.K_RIGHT]:
+            game.car.right();
+        if k[py.K_LEFT]:
+            game.car.left();
+        """
         if event.type == py.KEYDOWN:
             game.pressed[event.key] = True
         elif event.type == py.KEYUP:

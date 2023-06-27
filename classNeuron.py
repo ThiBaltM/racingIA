@@ -125,7 +125,7 @@ class NeuralNetwork:
                     self.bias4.append(random.random())
 
     def sigmoid(self, x):
-        return 1 / (1 + math.exp(-x))
+        return 1 / (1 + math.exp(-5*x))
 
     def printTab(self, tab):
         v = []
