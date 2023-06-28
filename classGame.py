@@ -16,13 +16,12 @@ class Game:
         self.compteur = 0;
         self.screenHeight, self.screenWidth = (self.screen.get_height(),self.screen.get_width());
 
-        self.actionCamera = True;
-
         self.road = [py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight)),py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth*2, self.screenHeight*2))];
         self.trackBorder = json.load(open("roadCollides.json"))
         self.x = 0;
         self.y=0;
         self.roadAdvance = Road(self);
+        self.layer = [9,12,8,2]
 
         self.car = CarPlayer(self);
 
@@ -38,7 +37,7 @@ class Game:
         except IOError:
             print("pas de sauvegarde trouvée, lancement d'une nouvelle simulation")
 
-            self.ennemiCar = Car(self, NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3], self.layer[4]));
+            self.ennemiCar = Car(self, NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3]));
 
 
         self.clock = py.time.Clock();
@@ -47,59 +46,10 @@ class Game:
 
           
     def update(self):
-        self.car.disp(0,0);
         """Cette fonction met a jour les evenement divers pouvant avoir lieux"""
         self.clock.tick(self.fps);
         py.draw.rect(self.screen, (22,73,0), py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
-        if(self.lives<=0):
-            self.lives = self.batchTry;
-            if((self.numBatch+1)*self.batchTry>=self.pop):
-                
-
-
-                self.gen +=1;
-                self.numBatch = 0;
-                self.listCar.sort(key=lambda x:x.scoreFinal, reverse=True);
-
-                nListCar =[];
-                for k in range (25):
-                    nListCar.append(Car(self, self.listCar[k].brain));
-                for k in range (25, 450):
-                    
-                    r1 = random.choices(population=[i for i in range(150)], weights=[(151-i)*(151-i) for i in range(150)], k=1)
-                    tmp = [i for i in range(150)]
-                    tmp.remove(r1[0])
-                    tmp2 = [(151-i)*(151-i) for i in range(150)]
-                    tmp2.remove((151-r1[0])*(151-r1[0]))
-                    r2 = random.choices(population=tmp, weights=tmp2, k=1)
-
-                    p1 = self.listCar[r1[0]]
-                    p2 = self.listCar[r2[0]]
-                    nListCar.append(Car(self, NeuralNetwork(data=p1.brain.export(), data2=p2.brain.export())));
-                for k in range(450,500):
-                    nListCar.append(Car(self,NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3], self.layer[4])))
-                
-                self.listCar = nListCar;
-
-                #sauvegarde de la génération
-                if(self.gen%2==0):
-                    print(f"sauvegarde gen {self.gen}...")
-                    with open('genSave.json', 'w') as outfile:
-                        outfile.write(json.dumps(
-                            {
-                                "listCar":[car.brain.export() for car in self.listCar],
-                                "gen":self.gen
-                            }
-                        ))
-                    print("sauvegarde terminée")
-
-                random.shuffle(self.listCar);
-                self.currentListCar = self.listCar[:self.batchTry]
-            else:
-                self.numBatch +=1;
-                self.currentListCar = self.listCar[self.numBatch*self.batchTry: (self.numBatch+1)*self.batchTry]
-                
-
+        self.car.disp(0,0);
 
         #myfont = py.font.SysFont('Impact', self.screen.get_width() // 74)
         #textScoreSurface = myfont.render(f"your score :{self.car.calculScore()}", False, (0,0,0))
@@ -114,35 +64,12 @@ class Game:
             self.car.left()
         if self.pressed[py.K_d]:
             self.car.right()
-        self.currentListCar.sort(key=shortingScore);   
-        firstCar = self.currentListCar[-1]
 
-        if(self.actionCamera):
-            x,y = firstCar.x, firstCar.y;
-            x,y = (-2*x+self.screenWidth/2,-2*y+self.screenHeight/2)
-            self.screen.blit(self.road[int(self.actionCamera)], (x,y));
-            firstCar.showData();
-            for car in self.currentListCar:
-                car.disp(x,y);
-        else:
-            self.screen.blit(self.road[int(self.actionCamera)], (0,0));
-            firstCar.showData();
-            for car in self.currentListCar:
-                car.disp(0,0);
-            
 
-        
-        
-        #afficher génération
-        font = py.font.SysFont(None, 20)
-        img = font.render('gen : '+str(self.gen), True, (0,0,0))
-        self.screen.blit(img, (100, 10))
-        img = font.render('remain : '+str(self.lives), True, (0,0,0))
-        self.screen.blit(img, (260, 10))
-        img = font.render('batch : '+str(self.numBatch), True, (0,0,0))
-        self.screen.blit(img, (180, 10))
+        x,y = self.car.x, self.car.y;
+        x,y = (-2*x+self.screenWidth/2,-2*y+self.screenHeight/2)
+        self.screen.blit(self.road[int(self.actionCamera)], (x,y));
 
-        img = font.render('FPS : '+str(round(self.clock.get_fps())), True, (0,0,0))
-        self.screen.blit(img, (5, 10))
+        self.ennemiCar.disp(x,y);
         
         self.compteur += 1;
