@@ -52,9 +52,12 @@ while running:
         elif event.type == pygame.MOUSEMOTION:
             # enlever la selection si on ne passe pas sur les boutons 
             mode.cliquerJouer = False 
-            mode.cliquerQuitter = False 
+            mode.cliquerQuitter = False
+            mode.cliquerSimuler = False 
 
             if mode.rectJouer.collidepoint(pygame.mouse.get_pos()):
                 mode.cliquerJouer = True 
             elif mode.rectQuitter.collidepoint(pygame.mouse.get_pos()):
                 mode.cliquerQuitter = True
+            elif mode.rectSimuler.collidepoint(pygame.mouse.get_pos()):
+                mode.cliquerSimuler = True

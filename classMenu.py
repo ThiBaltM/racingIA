@@ -29,15 +29,15 @@ class Menu:
         self.rectJouerCliquer.x = self.screen.get_width() /2.5
         self.rectJouerCliquer.y = self.screen.get_height() /4.5
 
-        self.img["Simuler"] = pygame.transform.scale(pygame.image.load('assets/playPress.xcf'), (250,100))
+        self.img["Simuler"] = pygame.transform.scale(pygame.image.load('assets/simu.xcf'), (250,100))
         self.rectSimuler = self.img["Simuler"].get_rect()
         self.rectSimuler.x = self.screen.get_width() /2.5
         self.rectSimuler.y = self.screen.get_height() /3
 
-        self.img["SimulerCliquer"] = pygame.transform.scale(pygame.image.load('assets/playPress.xcf'), (250,100))
+        self.img["SimulerCliquer"] = pygame.transform.scale(pygame.image.load('assets/simuPress.xcf'), (250,100))
         self.rectSimulerCliquer = self.img["SimulerCliquer"].get_rect()
         self.rectSimulerCliquer.x = self.screen.get_width() /2.5
-        self.recSimulerrCliquer.y = self.screen.get_height() /3
+        self.rectSimulerCliquer.y = self.screen.get_height() /3
 
         self.img["Quitter"] = pygame.transform.scale(pygame.image.load('assets/quit.xcf'), (250, 100))
         self.rectQuitter = self.img ["Quitter"].get_rect()
@@ -64,7 +64,7 @@ class Menu:
             if self.cliquerQuitter:    
                 self.screen.blit(self.img["QuitterCliquer"], (self.rectQuitterCliquer.x, self.rectQuitterCliquer.y))
             if self.cliquerSimuler:
-                self.screen.blit(self.img["SimulerCliquer"], (self.rectQuitterCliquer.x, self.rectQuitterCliquer.y))
+                self.screen.blit(self.img["SimulerCliquer"], (self.rectSimulerCliquer.x, self.rectSimulerCliquer.y))
             
 
      
