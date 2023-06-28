@@ -122,6 +122,7 @@ class Car:
 
 
         self.first = False;
+        self.demo = False;
         
             
 
@@ -170,6 +171,7 @@ class Car:
 
     def showData(self):
         self.first = True;
+        self.demo = True;
         
         self.dispNeuralNetwork()
     
