@@ -23,33 +23,28 @@ while running:
     for event in pygame.event.get():
         # evenement quitte
         if event.type == py.KEYDOWN and mode.jeuLance:
-            game.pressed[event.key] = True
+            playingGame.pressed[event.key] = True
         elif event.type == py.KEYUP and mode.jeuLance:
-            game.pressed[event.key] = False
-        elif event.type == py.MOUSEBUTTONDOWN:
+            playingGame.pressed[event.key] = False
+        elif event.type == py.MOUSEBUTTONDOWN and mode.menuLance:
             if mode.rectJouer.collidepoint(event.pos):
-                game = Game(screen)
+                playingGame = PlayingGame(screen)
                 mode.menuLance = False 
                 mode.jeuLance = True 
             
             if mode.rectSimuler.collidepoint(event.pos):
-                playingGame = PlayingGame(screen)
+
+                game = Game(screen)
                 mode.menuLance = False 
                 mode.simuLance = True 
 
             if mode.rectQuitter.collidepoint(event.pos):
                 running = False 
-            game.pressed[event.button] = True
-            #initializing road
-            game.roadAdvance.draw()
-        
-        elif event.type == py.MOUSEBUTTONUP:
-            game.pressed[event.button] = False
 
         elif event.type == pygame.QUIT:
             running = False
 
-        elif event.type == pygame.MOUSEMOTION:
+        elif event.type == pygame.MOUSEMOTION and mode.menuLance:
             # enlever la selection si on ne passe pas sur les boutons 
             mode.cliquerJouer = False 
             mode.cliquerQuitter = False
