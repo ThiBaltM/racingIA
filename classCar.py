@@ -10,7 +10,7 @@ class Car:
         self.outputs = [0,0];
         self.maxTurn = pi/120;
         self.speed = 0;
-        self.maxSpeed = 10;
+        self.maxSpeed = 5;
         self.x = 220;
         self.y = 620;
         self.first = False;
@@ -26,7 +26,7 @@ class Car:
         self.ko = False;
         self.score=0;
         self.scoreFinal =0;
-        self.lenRay = 400;
+        self.lenRay = 200;
         self.demo = False;
         self.brain = brain;
         self.compteurMouv = 0;

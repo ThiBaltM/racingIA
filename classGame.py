@@ -18,7 +18,7 @@ class Game:
         self.pop = 500;
         self.batchTry = 25;
         self.numBatch = 0;
-        self.actionCamera = True;
+        self.actionCamera = False;
 
         self.road = [py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight)),py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth*2, self.screenHeight*2))];
         self.trackBorder = json.load(open("roadCollides.json"))
@@ -26,7 +26,7 @@ class Game:
         self.y=0;
         self.roadAdvance = Road(self);
         self.listCar = [];
-        self.layer = [9,14,18,2]
+        self.layer = [9,12,8,2]
 
         try:
             file = open("genSave.json", 'r')
@@ -46,12 +46,12 @@ class Game:
         self.lives = self.batchTry;
         self.currentListCar = self.listCar[:self.batchTry];
         self.clock = py.time.Clock();
-        self.fps = 30;
+        self.fps = 990;
 
 
           
     def update(self):
-        """Cette fonction met a jour les evenement divers pouvant avoir lieux"""
+        """Cette fonction met a jour les evenements divers pouvant avoir lieux"""
         self.clock.tick(self.fps);
         py.draw.rect(self.screen, (22,73,0), py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
         if(self.lives<=0):
