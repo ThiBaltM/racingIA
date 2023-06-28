@@ -1,6 +1,7 @@
 import pygame as py
 from math import pi, atan2, degrees, sqrt, cos, sin;
 
+
 class Car:
     def __init__(self, game, brain):
         self.game = game;
@@ -9,8 +10,7 @@ class Car:
         self.outputs = [0,0];
         self.maxTurn = pi/120;
         self.speed = 0;
-        self.maxSpeed = 4;
-        self.minSpeed = 1;
+        self.maxSpeed = 5;
         self.x = 220;
         self.y = 620;
         self.first = False;
@@ -21,28 +21,15 @@ class Car:
             self.imgOrigin[1]['blue'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}.png"),(100, 100))
             self.imgOrigin[1]['green'][i] = py.transform.scale(py.image.load(f"assets/car{str(i)}First.png"),(100, 100))
 
-        self.imgControl = {
-            "left":[py.transform.scale(py.image.load(f"assets/left.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/leftPushed.png"),(50, 50))],
-            "right":[py.transform.scale(py.image.load(f"assets/right.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/rightPushed.png"),(50, 50))],
-            "engine":[py.transform.scale(py.image.load(f"assets/engine.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/enginePushed.png"),(50, 50))],
-            "brake":[py.transform.scale(py.image.load(f"assets/brake.png"),(50, 50)),py.transform.scale(py.image.load(f"assets/brakePushed.png"),(50, 50))],
-                           }
-
         self.turn = 0;
         self.turning = False;
         self.ko = False;
         self.score=0;
         self.scoreFinal =0;
-        self.lenRay = 400;
+        self.lenRay = 200;
         self.demo = False;
         self.brain = brain;
         self.compteurMouv = 0;
-    
-        #controls
-        self.leftA=False;
-        self.rightA=False;
-        self.engineA=False;
-        self.brakeA=False;
 
         self.indexImg = 0;
         self.tabInput = [0 for _ in range(11)];
@@ -76,10 +63,6 @@ class Car:
                 self.die();
             """
             self.turning = False;
-            self.leftA = False;
-            self.rightA = False;
-            self.brakeA = False;
-            self.engineA = False;
         
             score = self.score
             self.score = self.game.roadAdvance.advance(self, self.game.compteur, self.score);
@@ -119,11 +102,6 @@ class Car:
                     self.tabInput.append(lenght);
                 else:
                     self.tabInput.append(1);
-            
-            #ajout moteur et volant aux données
-
-            self.tabInput.append(self.speed*2/self.maxSpeed);
-            self.tabInput.append(self.turn/self.maxTurn);
 
             self.acting(self.tabInput);
 
@@ -151,15 +129,9 @@ class Car:
         act = self.brain.forward(inputs);
         self.outputs = act;
 
-        for k in range(2):
-            if(act[k]>0.51 and k ==0):
-                self.accelerate();
-            elif(act[k]<0.49 and k == 0):
-                self.brake();
-            if(act[k]>0.51 and k==1):               
-                self.left();
-            elif(act[k]<0.49 and k==1):
-                self.right();
+        self.turn = -self.maxTurn+ act[0] * (2*self.maxTurn)
+        self.speed = act[1]*self.maxSpeed
+
 
 
     def left(self):
@@ -198,25 +170,6 @@ class Car:
 
     def showData(self):
         self.first = True;
-        if(self.engineA):
-            self.screen.blit(self.imgControl["engine"][1], (90, 80));
-        else:
-            self.screen.blit(self.imgControl["engine"][0], (90, 80));
-
-        if(self.brakeA):
-            self.screen.blit(self.imgControl["brake"][1], (30, 80));
-        else:
-            self.screen.blit(self.imgControl["brake"][0], (30, 80));
-
-        if(self.leftA):
-            self.screen.blit(self.imgControl["left"][1], (30, 30));
-        else:
-            self.screen.blit(self.imgControl["left"][0], (30, 30));
-
-        if(self.rightA):
-            self.screen.blit(self.imgControl["right"][1], (90, 30));
-        else:
-            self.screen.blit(self.imgControl["right"][0], (90, 30));
         
         self.dispNeuralNetwork()
     

@@ -22,7 +22,7 @@ screen = py.display.set_mode((largeurEcran,hauteurEcran))
 
 clock = py.time.Clock()
 
-road = py.transform.scale(py.image.load(f"assets/circuit.png"),(largeurEcran, hauteurEcran));
+road = py.transform.scale(py.image.load(f"assets/trackcircuit.png"),(largeurEcran, hauteurEcran));
 road_mask = py.mask.from_surface(road)
 unit=4
 x =0

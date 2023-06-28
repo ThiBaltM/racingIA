@@ -26,7 +26,7 @@ class Game:
         self.y=0;
         self.roadAdvance = Road(self);
         self.listCar = [];
-        self.layer = [11,14,18,2]
+        self.layer = [9,12,8,2]
 
         try:
             file = open("genSave.json", 'r')
@@ -46,14 +46,14 @@ class Game:
         self.lives = self.batchTry;
         self.currentListCar = self.listCar[:self.batchTry];
         self.clock = py.time.Clock();
-        self.fps = 30;
+        self.fps = 990;
 
 
           
     def update(self):
-        """Cette fonction met a jour les evenement divers pouvant avoir lieux"""
+        """Cette fonction met a jour les evenements divers pouvant avoir lieux"""
         self.clock.tick(self.fps);
-        py.draw.rect(self.screen, "white", py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
+        py.draw.rect(self.screen, (22,73,0), py.Rect(0,0,self.screen.get_width(), self.screen.get_height()));
         if(self.lives<=0):
             self.lives = self.batchTry;
             if((self.numBatch+1)*self.batchTry>=self.pop):
