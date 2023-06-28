@@ -40,7 +40,33 @@ class CarPlayer:
             self.indexImg = round(self.turn/self.maxTurn)*6;
         else:
             self.indexImg = round(round(self.turn/self.maxTurn)*6/(round(self.speed)*(2/9)+(7/9)));
+        
+        xStart, yStart = (self.x, self.y)
+        tabRes = []
+        self.tabInput = []
+        angleUnit = pi*5/48
 
+        #collisions
+        for angle in [self.angle+4*angleUnit, self.angle+3*angleUnit, self.angle+2*angleUnit, self.angle+angleUnit, self.angle, self.angle-angleUnit, self.angle - 2*angleUnit, self.angle - 3*angleUnit, self.angle-4*angleUnit]:
+            for k in range(0, 30, 4): #4 correspond to the unit of collisionMaker
+                
+                targetX, targetY = (xStart - k * cos(angle), yStart + k * sin(angle))
+                if self.game.trackBorder[round(targetY/4)][round(targetX/4)]:
+                    break;
+            
+            tabRes.append((targetX,targetY));
+
+        for coords in tabRes:
+            if(coords!=None):
+                v = sqrt((xStart - coords[0])**2+(yStart - coords[1])**2);
+                lenght = v/30;
+                if(v<15):
+                    self.x = self.game.ennemiCar.x;
+                    self.y = self.game.ennemiCar.y;
+                    self.speed = 0.5;
+                    self.angle = self.game.ennemiCar.angle;
+                    self.turn = 0;
+                    break;
 
         self.turning = False;
 
