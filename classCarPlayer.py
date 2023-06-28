@@ -33,6 +33,7 @@ class CarPlayer:
 
     def disp(self,x,y):
         if(not self.ko):
+            print("salut")
             if(not self.turning):
                 if(self.turn > 0):
                     self.turn -= pi/4800;

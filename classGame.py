@@ -15,42 +15,34 @@ class Game:
         self.pressed = {py.K_e : False,1: False, py.K_z:False, py.K_s:False, py.K_q:False, py.K_d:False};
         self.compteur = 0;
         self.screenHeight, self.screenWidth = (self.screen.get_height(),self.screen.get_width());
-        self.score = 0;
-        self.pop = 500;
-        self.batchTry = 25;
-        self.numBatch = 0;
-        self.actionCamera = False;
+
+        self.actionCamera = True;
 
         self.road = [py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth, self.screenHeight)),py.transform.scale(py.image.load(f"assets/circuit.png"),(self.screenWidth*2, self.screenHeight*2))];
         self.trackBorder = json.load(open("roadCollides.json"))
         self.x = 0;
         self.y=0;
         self.roadAdvance = Road(self);
-        self.listCar = [];
-        self.layer = [9,11,8,4,2]
+
         self.car = CarPlayer(self);
 
         try:
             file = open("genSave.json", 'r')
             data = json.load(file)
-            self.gen = data["gen"]
-            for k in range (self.pop):
-                self.listCar.append(Car(self, NeuralNetwork(data = data["listCar"][k])));
+
+            self.ennemiCar = Car(self, NeuralNetwork(data = data["listCar"][0]));
             print("fichier sauvegarde lu")
             
 
 
         except IOError:
             print("pas de sauvegarde trouvée, lancement d'une nouvelle simulation")
-            self.listCar = []
-            for _ in range (self.pop):
-                self.listCar.append(Car(self, NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3], self.layer[4])));
-            self.gen = 0;
 
-        self.lives = self.batchTry;
-        self.currentListCar = self.listCar[:self.batchTry];
+            self.ennemiCar = Car(self, NeuralNetwork(self.layer[0],self.layer[1],self.layer[2],self.layer[3], self.layer[4]));
+
+
         self.clock = py.time.Clock();
-        self.fps = 24;
+        self.fps = 60;
 
 
           
