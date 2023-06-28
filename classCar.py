@@ -65,7 +65,7 @@ class Car:
             self.turning = False;
         
             score = self.score
-            self.score = self.game.roadAdvance.advance(self, self.game.compteur, self.score);
+            self.score = self.game.roadAdvance.advance(self, self.game.compteur, self.score, self.first);
             if(score < self.score):
                 self.compteurMouv =0;
             else:

@@ -11,7 +11,7 @@ class Road:
     def draw(self):
         self.list.append(py.mouse.get_pos())  
 
-    def advance(self, car, time, current):
+    def advance(self, car, time, current, draw=False):
         x, y = (int(car.x), int(car.y));
         c = 0;
         listeDistance = [];
@@ -20,12 +20,14 @@ class Road:
             l = sqrt((x-coords[0])**2+(y-coords[1])**2);
             listeDistance.append(l)
             dictDistance[l] = c;
-            py.draw.circle(self.screen,'red',coords,5,5);
+            if(draw):
+                py.draw.circle(self.screen,'red',coords,5,5);
 
             c+=1;
         if(listeDistance != []):
             r = dictDistance[min(listeDistance)]+current;
-            py.draw.circle(self.screen,'green',self.listPts[r],10,10);
+            if(draw):
+                py.draw.circle(self.screen,'green',self.listPts[r],10,10);
             return r;
         return 0;
 
