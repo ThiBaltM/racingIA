@@ -9,7 +9,7 @@ class CarPlayer:
         self.outputs = [0,0];
         self.maxTurn = pi/120;
         self.speed = 0;
-        self.maxSpeed = 4;
+        self.maxSpeed = 2.5;
         self.x = 220;
         self.y = 620;
         self.first = False;
