@@ -22,22 +22,22 @@ class Menu:
         self.img["Jouer"] = pygame.transform.scale(pygame.image.load('assets/play.xcf'), (250,100))
         self.rectJouer = self.img["Jouer"].get_rect()
         self.rectJouer.x = self.screen.get_width() /2.5
-        self.rectJouer.y = self.screen.get_height() /4.5
+        self.rectJouer.y = self.screen.get_height() /3
         
         self.img["JouerCliquer"] = pygame.transform.scale(pygame.image.load('assets/playPress.xcf'), (250,100))
         self.rectJouerCliquer = self.img["JouerCliquer"].get_rect()
         self.rectJouerCliquer.x = self.screen.get_width() /2.5
-        self.rectJouerCliquer.y = self.screen.get_height() /4.5
+        self.rectJouerCliquer.y = self.screen.get_height() /3
 
-        self.img["Simuler"] = pygame.transform.scale(pygame.image.load('assets/simu.xcf'), (250,100))
+        self.img["Simuler"] = pygame.transform.scale(pygame.image.load('assets/simu.xcf'), (430,75))
         self.rectSimuler = self.img["Simuler"].get_rect()
-        self.rectSimuler.x = self.screen.get_width() /2.5
-        self.rectSimuler.y = self.screen.get_height() /3
+        self.rectSimuler.x = self.screen.get_width() /2.8
+        self.rectSimuler.y = self.screen.get_height() /4.5
 
-        self.img["SimulerCliquer"] = pygame.transform.scale(pygame.image.load('assets/simuPress.xcf'), (250,100))
+        self.img["SimulerCliquer"] = pygame.transform.scale(pygame.image.load('assets/simuPress.xcf'), (430,75))
         self.rectSimulerCliquer = self.img["SimulerCliquer"].get_rect()
-        self.rectSimulerCliquer.x = self.screen.get_width() /2.5
-        self.rectSimulerCliquer.y = self.screen.get_height() /3
+        self.rectSimulerCliquer.x = self.screen.get_width() /2.8
+        self.rectSimulerCliquer.y = self.screen.get_height() /4.5
 
         self.img["Quitter"] = pygame.transform.scale(pygame.image.load('assets/quit.xcf'), (250, 100))
         self.rectQuitter = self.img ["Quitter"].get_rect()
