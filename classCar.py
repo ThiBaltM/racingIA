@@ -135,27 +135,6 @@ class Car:
 
 
 
-    def left(self):
-        self.leftA=True;
-        if(self.turn<= self.maxTurn and self.speed !=0):
-            self.turn += pi/1200;
-        self.turning = True;
-
-    def right(self):
-        self.rightA=True;
-        if(self.turn >= -self.maxTurn and self.speed !=0):
-            self.turn -= pi/1200;
-        self.turning = True;
-
-    def accelerate(self):
-        self.engineA = True;
-        if(self.speed < self.maxSpeed):
-            self.speed +=0.1;
-
-    def brake(self):
-        self.brakeA=True;
-        if(self.speed >self.minSpeed):
-            self.speed -=0.4;
 
     def calculScore(self):
         return self.score*400 - self.game.compteur;
